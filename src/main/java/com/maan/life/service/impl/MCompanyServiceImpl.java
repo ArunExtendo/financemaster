@@ -3,7 +3,6 @@ package com.maan.life.service.impl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -95,11 +94,6 @@ public class MCompanyServiceImpl implements MCompanyService {
 		return total;
 	}
 
-	@Override
-	public Optional<MCompany> findByCompCode(String compCode) {
-
-		return repository.findByCompCode(compCode);
-	}
 
 	@Override
 	public void saveorupdate(MCompany obj) {

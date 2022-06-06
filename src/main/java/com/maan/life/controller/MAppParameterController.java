@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.maan.life.bean.MCompany;
+import com.maan.life.bean.MAppParameter;
 import com.maan.life.dto.ListViewParam;
 import com.maan.life.response.Response;
 import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
-import com.maan.life.service.MCompanyService;
+import com.maan.life.service.MAppParameterService;
 import com.maan.life.service.MessagePropertyService;
 import com.maan.life.util.Convention;
 import com.maan.life.util.ValidationUtil;
@@ -40,22 +40,20 @@ import lombok.NonNull;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @AllArgsConstructor(onConstructor_ = { @Autowired })
-@RequestMapping("/mcompany")
-public class MCompanyController {
+@RequestMapping("/mappParameter")
+public class MAppParameterController {
 
 	@Autowired
-	private MCompanyService entityService;
+	private MAppParameterService entityService;
 	private MessagePropertyService messageSource;
+	private @NonNull ResponseGenerator responseGenerator;
 	private Convention sorting;
 
-	private static final Logger logger = Logger.getLogger(MCompanyController.class);
+	private static final Logger logger = Logger.getLogger(MAppParameterController.class);
 
-	private @NonNull ResponseGenerator responseGenerator;
-
-	@ApiOperation(value = "Create or Update.", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(
-			@ApiParam(value = "The Line of Business request payload") @Valid @RequestBody MCompany request,
+			@ApiParam(value = "Request payload") @Valid @RequestBody MAppParameter request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
@@ -75,15 +73,14 @@ public class MCompanyController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch dropdown List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch all data List.", response = Response.class)
 	@GetMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
-
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
 
-			List<MCompany> lst = entityService.getAll();
+			List<MAppParameter> lst = entityService.getAll();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 
@@ -108,21 +105,17 @@ public class MCompanyController {
 
 		try {
 
-			List<MCompany> obj = new ArrayList<MCompany>();
-			Page<MCompany> list = null;
-
+			List<MAppParameter> obj = new ArrayList<MAppParameter>();
+			Page<MAppParameter> list = null;
 			if (ValidationUtil.isNull(request.getSearch())) {
 
 				list = entityService.findAll(paging);
-
+				obj = list.getContent();
 			} else {
-
 				list = entityService.findSearch(request.getSearch(), paging);
+				obj = list.getContent();
 
 			}
-
-			obj = list.getContent();
-
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);
 			response.put("currentPage", list.getNumber());
@@ -135,12 +128,10 @@ public class MCompanyController {
 		} catch (
 
 		Exception e) {
-
 			e.printStackTrace();
 			logger.error(e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
-
 }

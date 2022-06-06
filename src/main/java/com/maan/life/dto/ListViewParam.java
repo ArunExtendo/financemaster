@@ -8,7 +8,6 @@ import lombok.Setter;
 public class ListViewParam {
 
 	private String search;
-	private String orderBy[];
 	private int pageSize;
 	private int pageNumber;
 	private String code[];
