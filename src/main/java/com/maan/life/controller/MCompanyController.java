@@ -60,15 +60,15 @@ public class MCompanyController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
-		entityService.saveorupdate(request);
-
 		try {
+			entityService.saveorupdate(request);
+
 			return responseGenerator.successResponse(context, messageSource.getMessage("saved"), HttpStatus.OK);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in createOrupdate" +e.getMessage(), e);
+			logger.error("Error in createOrupdate" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -90,7 +90,7 @@ public class MCompanyController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown List"+e.getMessage(), e);
+			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -103,10 +103,9 @@ public class MCompanyController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
-		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-				sorting.getPageSize(request.getPageSize()));
-
 		try {
+			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+					sorting.getPageSize(request.getPageSize()));
 
 			List<MCompany> obj = new ArrayList<MCompany>();
 			Page<MCompany> list = null;
@@ -137,7 +136,7 @@ public class MCompanyController {
 		Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll for Grid list" +e.getMessage(), e);
+			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}

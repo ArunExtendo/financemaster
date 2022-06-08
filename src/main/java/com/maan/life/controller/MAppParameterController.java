@@ -59,11 +59,8 @@ public class MAppParameterController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
 			entityService.saveorupdate(request);
-
 			return responseGenerator.successResponse(context, messageSource.getMessage("saved"), HttpStatus.OK);
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
 			logger.error("Error in createOrupdate" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -78,13 +75,11 @@ public class MAppParameterController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-
 			List<MAppParameter> lst = entityService.getAll();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
 			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -112,7 +107,6 @@ public class MAppParameterController {
 			} else {
 				list = entityService.findSearch(request.getSearch(), paging);
 				obj = list.getContent();
-
 			}
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);
@@ -122,7 +116,6 @@ public class MAppParameterController {
 
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
-
 		} catch (
 
 		Exception e) {
