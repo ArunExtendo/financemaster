@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -64,39 +65,49 @@ public class MDepartment implements Serializable {
 	// --- ENTITY PRIMARY KEY
 	@Id
 	@NotEmpty(message = "Dept code is required")
+	@Size(max = 12, message = "Dept code must be within 12 character")
 	@Column(name = "DEPT_CODE", nullable = false, length = 12)
 	private String deptCode;
 
 	@Id
 	@NotEmpty(message = "Dept divn code is required")
+	@Size(max = 12, message = "Dept divn code must be within 12 character")
 	@Column(name = "DEPT_DIVN_CODE", nullable = false, length = 12)
 	private String deptDivnCode;
 
 	@Id
 	@NotEmpty(message = "Dept comp code is required")
+	@Size(max = 12, message = "Dept comp code must be within 12 character")
 	@Column(name = "DEPT_COMP_CODE", nullable = false, length = 12)
 	private String deptCompCode;
 
 	// --- ENTITY DATA FIELDS
+	@Size(max = 12, message = "Dept name must be within 240 character")
 	@Column(name = "DEPT_NAME", length = 240)
 	private String deptName;
 
+	@Size(max = 12, message = "Dept short name must be within 30 character")
 	@Column(name = "DEPT_SHORT_NAME", length = 30)
 	private String deptShortName;
 
+	@Size(max = 12, message = "Dept header must be within 5 character")
 	@Column(name = "DEPT_HEADER", length = 5)
 	private String deptHeader;
-
+	
+	@Size(max = 12, message = "Dept bl name must be within 240 character")
 	@Column(name = "DEPT_BL_NAME", length = 240)
 	private String deptBlName;
 
+	@Size(max = 12, message = "Dept bl short name must be within 30 character")
 	@Column(name = "DEPT_BL_SHORT_NAME", length = 30)
 	private String deptBlShortName;
 
+	@Size(max = 12, message = "Dept frz flag must be within 1 character")
 	@Column(name = "DEPT_FRZ_FLAG", length = 1)
 	private String deptFrzFlag;
 
 	@CreatedBy
+	@Size(max = 12, message = "Dept crUid must be within 12 character")
 	@Column(name = "DEPT_CR_UID", length = 12)
 	private String deptCrUid;
 
@@ -111,6 +122,7 @@ public class MDepartment implements Serializable {
 	private Date deptUpdDt;
 
 	@LastModifiedBy
+	@Size(max = 12, message = "Dept updUid must be within 12 character")
 	@Column(name = "DEPT_UPD_UID", length = 12)
 	private String deptUpdUid;
 

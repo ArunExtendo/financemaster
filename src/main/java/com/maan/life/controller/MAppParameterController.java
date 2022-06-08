@@ -57,16 +57,15 @@ public class MAppParameterController {
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
-		entityService.saveorupdate(request);
-
 		try {
+			entityService.saveorupdate(request);
+
 			return responseGenerator.successResponse(context, messageSource.getMessage("saved"), HttpStatus.OK);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error(e.getMessage(), e);
+			logger.error("Error in createOrupdate" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -87,7 +86,7 @@ public class MAppParameterController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error(e.getMessage(), e);
+			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -99,11 +98,10 @@ public class MAppParameterController {
 			throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
-		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-				sorting.getPageSize(request.getPageSize()));
-
 		try {
+
+			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+					sorting.getPageSize(request.getPageSize()));
 
 			List<MAppParameter> obj = new ArrayList<MAppParameter>();
 			Page<MAppParameter> list = null;
@@ -129,7 +127,7 @@ public class MAppParameterController {
 
 		Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage(), e);
+			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}

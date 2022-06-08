@@ -35,7 +35,7 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 			lst = repository.findAll();
 
 		} catch (Exception ex) {
-			log.error(ex);
+			log.error("Error in findAll" +ex);
 			return Collections.emptyList();
 		}
 		return lst;

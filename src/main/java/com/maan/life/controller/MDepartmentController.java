@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -58,23 +57,14 @@ public class MDepartmentController {
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
-		Optional<MDepartment> obj = entityService.findByDeptCode(request.getDeptCode());
-		if (obj.isPresent()) {
-			String[] param = new String[] { request.getDeptCode() };
-			return responseGenerator.errorResponse(context, messageSource.getMessage("mdept.code.duplicate", param),
-					HttpStatus.OK);
-		}
-
-		entityService.saveorupdate(request);
-
 		try {
+		entityService.saveorupdate(request);
 			return responseGenerator.successResponse(context, messageSource.getMessage("saved"), HttpStatus.OK);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error(e.getMessage(), e);
+			logger.error("Error in createOrUpdate" +e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -95,7 +85,7 @@ public class MDepartmentController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error(e.getMessage(), e);
+			logger.error("Error in getAll for dropdown List"+e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -108,11 +98,10 @@ public class MDepartmentController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
+		try {
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
-
-		try {
-
+		
 			List<MDepartment> obj = new ArrayList<MDepartment>();
 			Page<MDepartment> list = null;
 			if (ValidationUtil.isNull(request.getSearch())) {
@@ -145,7 +134,7 @@ public class MDepartmentController {
 
 		Exception e) {
 			e.printStackTrace();
-			logger.error(e.getMessage(), e);
+			logger.error("Error in getAll for Grid list" +e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}

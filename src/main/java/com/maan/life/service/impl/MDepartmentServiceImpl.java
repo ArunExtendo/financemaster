@@ -43,7 +43,7 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 		try {
 			list = repository.findAll();
 		} catch (Exception ex) {
-			log.error(ex);
+			log.error("Error in getAll" +ex);
 			return Collections.emptyList();
 		}
 		return list;
