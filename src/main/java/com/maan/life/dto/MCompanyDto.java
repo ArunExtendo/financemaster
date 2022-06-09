@@ -2,6 +2,8 @@ package com.maan.life.dto;
 
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,5 +38,21 @@ public class MCompanyDto {
 	private String compRegNo;
 	private String compTradeRefNo;
 	private Boolean check;
+	
+	public static void main(String[] args) throws Exception {
+
+		MCompanyDto hdr = new MCompanyDto();	
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonString = mapper.writeValueAsString(hdr);
+		System.out.print(jsonString);
+	}
 
 }
+
+
+
+
+
+
+
+
