@@ -2,7 +2,6 @@
 package com.maan.life.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,13 +14,10 @@ public interface MCompanyService {
 
 	MCompany update(MCompany d);
 
-//MCompany getOne(long id) ;
+    //MCompany getOne(long id) ;
 	List<MCompany> getAll();
 
 	long getTotal();
-
-//boolean delete(long id);
-	Optional<MCompany> findByCompCode(String compCode);
 
 	public void saveorupdate(MCompany obj);
 

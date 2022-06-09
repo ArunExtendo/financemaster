@@ -3,7 +3,6 @@ package com.maan.life.service.impl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,7 +39,7 @@ public class MCompanyServiceImpl implements MCompanyService {
 			entity = repository.save(d);
 
 		} catch (Exception ex) {
-			log.error(ex);
+			log.error("Error in create" +ex);
 			return null;
 		}
 		return entity;
@@ -54,7 +53,7 @@ public class MCompanyServiceImpl implements MCompanyService {
 			c = repository.saveAndFlush(d);
 
 		} catch (Exception ex) {
-			log.error(ex);
+			log.error("Error in update" +ex);
 			return null;
 		}
 		return c;
@@ -76,7 +75,7 @@ public class MCompanyServiceImpl implements MCompanyService {
 			lst = repository.findAll();
 
 		} catch (Exception ex) {
-			log.error(ex);
+			log.error("Error in findAll" +ex);
 			return Collections.emptyList();
 		}
 		return lst;
@@ -89,17 +88,12 @@ public class MCompanyServiceImpl implements MCompanyService {
 		try {
 			total = repository.count();
 		} catch (Exception ex) {
-			log.error(ex);
+			log.error("Error in total" +ex);
 			return 0;
 		}
 		return total;
 	}
 
-	@Override
-	public Optional<MCompany> findByCompCode(String compCode) {
-
-		return repository.findByCompCode(compCode);
-	}
 
 	@Override
 	public void saveorupdate(MCompany obj) {
@@ -121,13 +115,5 @@ public class MCompanyServiceImpl implements MCompanyService {
 
 		return repository.findAll(sear, paging);
 	}
-
-	/*
-	 * @Override public boolean delete(long id) { try { repository.deleteById(id);
-	 * return true;
-	 * 
-	 * } catch (Exception ex) { log.error(ex); return false; } }
-	 * 
-	 */
 
 }
