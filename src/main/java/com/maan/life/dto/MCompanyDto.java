@@ -38,3 +38,11 @@ public class MCompanyDto {
 	private Boolean check;
 
 }
+
+
+
+
+
+
+
+

@@ -2,16 +2,18 @@ package com.maan.life.service;
 
 import java.util.List;
 
-import javax.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.maan.life.bean.MAppCodes;
-import com.maan.life.dto.MAppCodesDto;
 
 public interface MAppCodesService {
 
-	//void saveorupdate(MAppCodes object);
-
 	List<MAppCodes> getAll();
 
-	void saveorupdate(@Valid MAppCodesDto request);
+	void saveorupdate(MAppCodes request);
+
+	Page<MAppCodes> findAll(Pageable paging);
+
+	Page<MAppCodes> findSearch(String search, Pageable paging);
 }
