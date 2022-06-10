@@ -1,4 +1,3 @@
-
 package com.maan.life.service.impl;
 
 import java.util.Collections;
@@ -12,22 +11,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MAppCodes;
-import com.maan.life.repository.MAppCodesRepository;
-import com.maan.life.service.MAppCodesService;
+import com.maan.life.bean.MCurrency;
+import com.maan.life.repository.MCurrencyRepository;
+import com.maan.life.service.MCurrencyService;
+
 
 @Service
 @Transactional
-public class MAppCodesServiceImpl implements MAppCodesService {
+public class MCurrencyServiceImpl implements MCurrencyService {
 
 	@Autowired
-	private MAppCodesRepository repository;
-
-	private Logger log = LogManager.getLogger(MAppCodesServiceImpl.class);
-
+	private MCurrencyRepository repository;
+	
+	private Logger log = LogManager.getLogger(MCurrencyServiceImpl.class);
+	
 	@Override
-	public List<MAppCodes> getAll() {
-		List<MAppCodes> lst;
+	public List<MCurrency> getAll() {
+		List<MCurrency> lst;
 		try {
 			lst = repository.findAll();
 
@@ -39,19 +39,25 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 	}
 
 	@Override
-	public void saveorupdate(MAppCodes request) {
+	public void saveorupdate(MCurrency request) {
 		repository.saveAndFlush(request);
 	}
 
 	@Override
-	public Page<MAppCodes> findSearch(String search, Pageable paging) {
-		String sear = "%" + search + "%";
+	public Page<MCurrency> findSearch(String search, Pageable paging) {
+    	String sear = "%" + search + "%";
 		return repository.findAll(sear, paging);
+		
 	}
 
 	@Override
-	public Page<MAppCodes> findAll(Pageable paging) {
+	public Page<MCurrency> findAll(Pageable paging) {
 		return repository.findAll(paging);
 	}
 
+	@Override
+	public Page<MCurrency> findByCurrCode(String string, Pageable paging) {
+		
+		return repository.findByCurrCode(string,paging);
+	}
 }

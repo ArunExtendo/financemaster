@@ -1,4 +1,3 @@
-
 package com.maan.life.service.impl;
 
 import java.util.Collections;
@@ -12,46 +11,52 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MAppCodes;
-import com.maan.life.repository.MAppCodesRepository;
-import com.maan.life.service.MAppCodesService;
+import com.maan.life.bean.MDivision;
+import com.maan.life.repository.MDivisionRepository;
+import com.maan.life.service.MDivisionService;
 
 @Service
 @Transactional
-public class MAppCodesServiceImpl implements MAppCodesService {
+public class MDivisionServiceImpl implements MDivisionService {
 
 	@Autowired
-	private MAppCodesRepository repository;
+	private MDivisionRepository repository;
 
-	private Logger log = LogManager.getLogger(MAppCodesServiceImpl.class);
+	private Logger log = LogManager.getLogger(MDivisionServiceImpl.class);
 
 	@Override
-	public List<MAppCodes> getAll() {
-		List<MAppCodes> lst;
+	public List<MDivision> getAll() {
+		List<MDivision> lst;
 		try {
 			lst = repository.findAll();
 
 		} catch (Exception ex) {
-			log.error("Error in findAll" +ex);
+			log.error("Error in findAll"+ex);
 			return Collections.emptyList();
 		}
 		return lst;
 	}
 
 	@Override
-	public void saveorupdate(MAppCodes request) {
+	public void saveorupdate(MDivision request) {
 		repository.saveAndFlush(request);
 	}
 
 	@Override
-	public Page<MAppCodes> findSearch(String search, Pageable paging) {
+	public Page<MDivision> findSearch(String search, Pageable paging) {
 		String sear = "%" + search + "%";
 		return repository.findAll(sear, paging);
 	}
 
 	@Override
-	public Page<MAppCodes> findAll(Pageable paging) {
+	public Page<MDivision> findAll(Pageable paging) {
 		return repository.findAll(paging);
 	}
+	
+	@Override
+	public Page<MDivision> findByDivnCompCode(String string, Pageable paging){
+		return repository.findByDivnCompCode(string,paging);
+	}
+	
 
 }
