@@ -54,4 +54,5 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 		return repository.findAll(paging);
 	}
 
+
 }

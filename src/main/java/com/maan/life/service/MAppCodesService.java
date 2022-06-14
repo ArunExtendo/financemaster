@@ -16,4 +16,5 @@ public interface MAppCodesService {
 	Page<MAppCodes> findAll(Pageable paging);
 
 	Page<MAppCodes> findSearch(String search, Pageable paging);
+
 }
