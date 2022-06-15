@@ -67,9 +67,9 @@ public class MDepartmentController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch all data List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows  to   fetch Department list to populate on dropdown.", response = Response.class)
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
@@ -81,7 +81,7 @@ public class MDepartmentController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
+			logger.error("Error in getList for dropdown List" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}

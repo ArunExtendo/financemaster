@@ -97,6 +97,7 @@ public class MCompanyController {
 		try {
 			List<MCompany> obj = new ArrayList<MCompany>();
 			Page<MCompany> list = null;
+			list = entityService.findAllCompanyDetails(request);
 			obj = list.getContent();
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);

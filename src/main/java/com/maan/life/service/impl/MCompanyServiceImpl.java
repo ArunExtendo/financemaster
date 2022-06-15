@@ -126,5 +126,5 @@ public class MCompanyServiceImpl implements MCompanyService {
 			list = repository.findAll(sear, paging);
 		}
 		return list;
-
+	}
 }

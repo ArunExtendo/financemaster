@@ -63,9 +63,9 @@ public class MAppParameterController {
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch all Drop down List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch App parameters list to populate on dropdown.", response = Response.class)
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
 			List<MAppParameter> lst = entityService.getAll();
@@ -74,13 +74,13 @@ public class MAppParameterController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
+			logger.error("Error in getList for dropdown List" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch Grid List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch App parameter entities to populate on Grid.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {
