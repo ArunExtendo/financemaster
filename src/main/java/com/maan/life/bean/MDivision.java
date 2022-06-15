@@ -23,6 +23,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -35,7 +36,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -55,7 +55,6 @@ import lombok.ToString;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Builder
 @EntityListeners(AuditingEntityListener.class)
 @IdClass(MDivisionId.class)
 @Table(name = "M_DIVISION")
@@ -140,6 +139,9 @@ public class MDivision implements Serializable {
 	@Size(max = 240, message = "Divn unit name must be within 240 character")
 	@Column(name = "DIVN_UNIT_NAME", length = 240)
 	private String divnUnitName;
+	
+	@Transient
+	private Boolean create= true;
 
 	// --- ENTITY LINKS ( RELATIONSHIP )
 

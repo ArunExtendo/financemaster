@@ -57,9 +57,9 @@ public class MDivisionController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
-		entityService.saveorupdate(request);
-
 		try {
+
+			entityService.saveorupdate(request);
 			return responseGenerator.successResponse(context, messageSource.getMessage("saved"), HttpStatus.OK);
 
 		} catch (Exception e) {

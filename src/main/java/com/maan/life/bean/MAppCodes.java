@@ -1,7 +1,6 @@
 package com.maan.life.bean;
 
 import java.io.Serializable;
-
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -13,6 +12,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -26,7 +26,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -35,7 +34,7 @@ import lombok.ToString;
 /**
  * Domain class for entity "MAppCodes"
  *
- * @author Rajkumar Ganesan
+ * @author Raj
  *
  */
 
@@ -47,7 +46,6 @@ import lombok.ToString;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Builder
 @IdClass(MAppCodesId.class)
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "M_APP_CODES")
@@ -140,4 +138,7 @@ public class MAppCodes implements Serializable {
 	@LastModifiedDate
 	@Column(name = "AC_UPD_DT")
 	private LocalDateTime acUpdDt;
+	
+	@Transient
+	private Boolean create= true;
 }
