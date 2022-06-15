@@ -3,6 +3,7 @@ package com.maan.life.service;
 
 import java.util.List;
 
+import com.maan.life.dto.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,14 +16,12 @@ public interface MCompanyService {
 	MCompany update(MCompany d);
 
     //MCompany getOne(long id) ;
-	List<MCompany> getAll();
+	List<Option> getList();
 
 	long getTotal();
 
 	public void saveorupdate(MCompany obj);
 
-	Page<MCompany> findAll(Pageable paging);
-
-	Page<MCompany> findSearch(String search, Pageable paging);
+	Page<MCompany> getAll(String search, Pageable paging);
 
 }

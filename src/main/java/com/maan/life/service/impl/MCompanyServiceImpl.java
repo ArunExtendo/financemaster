@@ -4,6 +4,8 @@ package com.maan.life.service.impl;
 import java.util.Collections;
 import java.util.List;
 
+import com.maan.life.dto.Option;
+import com.maan.life.util.ValidationUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,11 +70,11 @@ public class MCompanyServiceImpl implements MCompanyService {
 	 * 
 	 */
 	@Override
-	public List<MCompany> getAll() {
-		List<MCompany> lst;
+	public List<Option> getList() {
+		List<Option> lst;
 
 		try {
-			lst = repository.findAll();
+			lst = repository.getList();
 
 		} catch (Exception ex) {
 			log.error("Error in findAll" +ex);
@@ -102,18 +104,17 @@ public class MCompanyServiceImpl implements MCompanyService {
 
 	}
 
-	@Override
-	public Page<MCompany> findAll(Pageable paging) {
 
-		return repository.findAll(paging);
-	}
 
 	@Override
-	public Page<MCompany> findSearch(String search, Pageable paging) {
+	public Page<MCompany> getAll(String search, Pageable paging) {
+		if(ValidationUtil.isNull(search)){
+			return repository.findAll(paging);
+		}else{
+			String sear = "%" + search + "%";
+			return repository.findAll(sear, paging);
+		}
 
-		String sear = "%" + search + "%";
-
-		return repository.findAll(sear, paging);
 	}
 
 }

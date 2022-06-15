@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.maan.life.dto.Option;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,22 +76,22 @@ public class MCompanyController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch dropdown List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch company list to populate on dropdown.", response = Response.class)
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
 
-			List<MCompany> lst = entityService.getAll();
+			List<Option> lst = entityService.getList();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
+			logger.error("Error in getList for dropdown " + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -110,17 +111,7 @@ public class MCompanyController {
 			List<MCompany> obj = new ArrayList<MCompany>();
 			Page<MCompany> list = null;
 
-			if (ValidationUtil.isNull(request.getSearch())) {
-
-				list = entityService.findAll(paging);
-
-			} else {
-
-				list = entityService.findSearch(request.getSearch(), paging);
-
-			}
-
-			list = entityService.findSearch(request.getSearch(), paging);
+			list = entityService.getAll(request.getSearch(), paging);
 
 			obj = list.getContent();
 
