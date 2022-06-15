@@ -21,15 +21,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,7 +47,6 @@ import lombok.ToString;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Builder
 @Table(name = "M_CURRENCY")
 
 public class MCurrency implements Serializable {
@@ -107,15 +104,11 @@ public class MCurrency implements Serializable {
 
 	@Column(name = "CURR_LOGO", length = 240)
 	private String currLogo;
+	
+	@Transient
+	private Boolean create= true;
 
 	// --- ENTITY LINKS ( RELATIONSHIP )
 	
-	public static void main(String[] args) throws Exception {
-
-		MCurrency hdr = new MCurrency();	
-		ObjectMapper mapper = new ObjectMapper();
-		String jsonString = mapper.writeValueAsString(hdr);
-		System.out.print(jsonString);
-	}
 
 }
