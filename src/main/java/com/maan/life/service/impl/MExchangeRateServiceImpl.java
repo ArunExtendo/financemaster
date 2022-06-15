@@ -5,6 +5,7 @@
 */
 package com.maan.life.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,9 +17,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maan.life.bean.MCompany;
+import com.maan.life.bean.MDepartment;
 import com.maan.life.bean.MExchangeRate;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MExchangeRateRepository;
 import com.maan.life.service.MExchangeRateService;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 
 /**
  * <h2>MExchangeRateServiceimpl</h2>
@@ -29,6 +35,9 @@ public class MExchangeRateServiceImpl implements MExchangeRateService {
 
 	@Autowired
 	private MExchangeRateRepository repository;
+	
+	@Autowired
+	private Convention sorting;
 
 	private Logger log = LogManager.getLogger(MExchangeRateServiceImpl.class);
 
@@ -55,16 +64,22 @@ public class MExchangeRateServiceImpl implements MExchangeRateService {
 	public void saveorupdate(MExchangeRate obj) {
 		repository.saveAndFlush(obj);
 	}
+	
+	public Page<MExchangeRate> findAllMExchangeRate(ListViewParam request) {
 
-	@Override
-	public Page<MExchangeRate> findAll(Pageable paging) {
-		return repository.findAll(paging);
+		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+				sorting.getPageSize(request.getPageSize()));
+		Page<MExchangeRate> list = null;
+
+		if (ValidationUtil.isNull(request.getSearch())) {
+
+			list = repository.findAll(paging);
+		} else {
+			String sear = "%" + request.getSearch() + "%";
+
+			list = repository.findAll(sear, paging);
+		}
+		return list;
 	}
 
-	public Page<MExchangeRate> findSearch(String search, Pageable paging) {
-
-		String sear = "%" + search + "%";
-
-		return repository.findAll(sear, paging);
-	}
 }

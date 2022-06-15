@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,6 @@ import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
 import com.maan.life.service.MCompanyService;
 import com.maan.life.service.MessagePropertyService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -46,7 +43,6 @@ public class MCompanyController {
 	@Autowired
 	private MCompanyService entityService;
 	private MessagePropertyService messageSource;
-	private Convention sorting;
 
 	private static final Logger logger = Logger.getLogger(MCompanyController.class);
 
@@ -104,26 +100,9 @@ public class MCompanyController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-					sorting.getPageSize(request.getPageSize()));
-
-			List<MCompany> obj = new ArrayList<MCompany>();
-			Page<MCompany> list = null;
-
-			if (ValidationUtil.isNull(request.getSearch())) {
-
-				list = entityService.findAll(paging);
-
-			} else {
-
-				list = entityService.findSearch(request.getSearch(), paging);
-
-			}
-
-			list = entityService.findSearch(request.getSearch(), paging);
-
+			List<MCompany> obj = new ArrayList<>();
+			Page<MCompany> list = entityService.findAllCompanyDetails(request);
 			obj = list.getContent();
-
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);
 			response.put("currentPage", list.getNumber());
@@ -133,10 +112,7 @@ public class MCompanyController {
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 
-		} catch (
-
-		Exception e) {
-
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);

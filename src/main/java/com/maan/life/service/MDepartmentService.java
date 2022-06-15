@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.maan.life.bean.MDepartment;
+import com.maan.life.dto.ListViewParam;
 
 /**
  * <h2>MDepartmentServiceimpl</h2>
@@ -23,12 +24,10 @@ public interface MDepartmentService {
 	// MDepartment getOne(long id) ;
 	List<MDepartment> getAll();
 
-	Page<MDepartment> findAll(Pageable paging);
-
-	Page<MDepartment> findSearch(String search, Pageable paging);
-
 	Optional<MDepartment> findByDeptCode(String deptCode);
 
 	Page<MDepartment> findByDeptCompCodeAndDeptDivnCode(String depotCompCode, String deptDivnCode, Pageable paging);
+
+	Page<MDepartment> findAllCompanyDetails(ListViewParam request);
 
 }

@@ -175,6 +175,6 @@ public class MCompany implements Serializable {
 	private String compTheme;
 
 	@Transient
-	private Boolean create=true;
+	private Boolean create;
 
 }

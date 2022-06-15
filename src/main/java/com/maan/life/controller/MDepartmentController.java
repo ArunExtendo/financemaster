@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,6 @@ import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
 import com.maan.life.service.MDepartmentService;
 import com.maan.life.service.MessagePropertyService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -47,7 +44,6 @@ public class MDepartmentController {
 	private MDepartmentService entityService;
 	private MessagePropertyService messageSource;
 	private @NonNull ResponseGenerator responseGenerator;
-	private Convention sorting;
 
 	private static final Logger logger = Logger.getLogger(MDepartmentController.class);
 
@@ -58,13 +54,13 @@ public class MDepartmentController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
-		entityService.saveorupdate(request);
+			entityService.saveorupdate(request);
 			return responseGenerator.successResponse(context, messageSource.getMessage("saved"), HttpStatus.OK);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in createOrUpdate" +e.getMessage(), e);
+			logger.error("Error in createOrUpdate" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -85,7 +81,7 @@ public class MDepartmentController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown List"+e.getMessage(), e);
+			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
@@ -99,28 +95,9 @@ public class MDepartmentController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-				sorting.getPageSize(request.getPageSize()));
-		
-			List<MDepartment> obj = new ArrayList<MDepartment>();
-			Page<MDepartment> list = null;
-			if (ValidationUtil.isNull(request.getSearch())) {
-
-				list = entityService.findAll(paging);
-				obj = list.getContent();
-			} else {
-				list = entityService.findSearch(request.getSearch(), paging);
-				obj = list.getContent();
-
-			}
-			if (request.getCode() != null) {
-				List<String> o = new ArrayList<String>();
-				for (String ob : request.getCode()) {
-					o.add(ob);
-				}
-				list = entityService.findByDeptCompCodeAndDeptDivnCode(o.get(0), o.get(1), paging);
-				obj = list.getContent();
-			}
+			List<MDepartment> obj = new ArrayList<>();
+			Page<MDepartment> list = entityService.findAllCompanyDetails(request);
+			obj = list.getContent();
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);
 			response.put("currentPage", list.getNumber());
@@ -134,7 +111,7 @@ public class MDepartmentController {
 
 		Exception e) {
 			e.printStackTrace();
-			logger.error("Error in getAll for Grid list" +e.getMessage(), e);
+			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}

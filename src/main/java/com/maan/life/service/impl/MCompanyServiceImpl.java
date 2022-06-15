@@ -1,6 +1,7 @@
 
 package com.maan.life.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,8 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maan.life.bean.MCompany;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MCompanyRepository;
 import com.maan.life.service.MCompanyService;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 
 @Service
 @Transactional
@@ -22,6 +26,8 @@ public class MCompanyServiceImpl implements MCompanyService {
 
 	@Autowired
 	private MCompanyRepository repository;
+	@Autowired
+	private Convention sorting;
 
 	private Logger log = LogManager.getLogger(MCompanyServiceImpl.class);
 
@@ -39,7 +45,7 @@ public class MCompanyServiceImpl implements MCompanyService {
 			entity = repository.save(d);
 
 		} catch (Exception ex) {
-			log.error("Error in create" +ex);
+			log.error("Error in create" + ex);
 			return null;
 		}
 		return entity;
@@ -53,7 +59,7 @@ public class MCompanyServiceImpl implements MCompanyService {
 			c = repository.saveAndFlush(d);
 
 		} catch (Exception ex) {
-			log.error("Error in update" +ex);
+			log.error("Error in update" + ex);
 			return null;
 		}
 		return c;
@@ -75,7 +81,7 @@ public class MCompanyServiceImpl implements MCompanyService {
 			lst = repository.findAll();
 
 		} catch (Exception ex) {
-			log.error("Error in findAll" +ex);
+			log.error("Error in findAll" + ex);
 			return Collections.emptyList();
 		}
 		return lst;
@@ -88,12 +94,11 @@ public class MCompanyServiceImpl implements MCompanyService {
 		try {
 			total = repository.count();
 		} catch (Exception ex) {
-			log.error("Error in total" +ex);
+			log.error("Error in total" + ex);
 			return 0;
 		}
 		return total;
 	}
-
 
 	@Override
 	public void saveorupdate(MCompany obj) {
@@ -102,18 +107,23 @@ public class MCompanyServiceImpl implements MCompanyService {
 
 	}
 
-	@Override
-	public Page<MCompany> findAll(Pageable paging) {
+	public Page<MCompany> findAllCompanyDetails(ListViewParam request) {
 
-		return repository.findAll(paging);
-	}
+		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+				sorting.getPageSize(request.getPageSize()));
+		Page<MCompany> list = null;
 
-	@Override
-	public Page<MCompany> findSearch(String search, Pageable paging) {
+		if (ValidationUtil.isNull(request.getSearch())) {
 
-		String sear = "%" + search + "%";
+			list = repository.findAll(paging);
 
-		return repository.findAll(sear, paging);
+		} else {
+			String sear = "%" + request.getSearch() + "%";
+
+			list = repository.findAll(sear, paging);
+		}
+		return list;
+
 	}
 
 }

@@ -29,7 +29,7 @@ import com.maan.life.bean.MExchangeRateId;
  */
 public interface MExchangeRateRepository  extends JpaRepository<MExchangeRate,MExchangeRateId > , JpaSpecificationExecutor<MExchangeRate> {
 	
-	@Query(value = "select * from M_EXCHANGE_RATE where upper(ER_EFF_FRM_DT || ER_EFF_TO_DT || ER_CONV_FM_CURR_CODE || ER_CONV_TO_CURR_CODE || ER_RATE_FOR || ER_BUY_RATE) like upper(:search) and order by asc", nativeQuery = true)
+	@Query(value = "select * from M_EXCHANGE_RATE where upper(ER_EFF_FRM_DT || ER_EFF_TO_DT || ER_CONV_FM_CURR_CODE || ER_CONV_TO_CURR_CODE || ER_RATE_FOR || ER_BUY_RATE) like upper(:search) order by ER_CONV_FM_CURR_CODE ASC", nativeQuery = true)
 	Page<MExchangeRate> findAll(String search, Pageable paging);
 
 }

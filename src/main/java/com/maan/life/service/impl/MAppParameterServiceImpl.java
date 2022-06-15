@@ -3,7 +3,6 @@ package com.maan.life.service.impl;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -16,8 +15,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maan.life.bean.MAppParameter;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MAppParameterRepository;
 import com.maan.life.service.MAppParameterService;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 
 @Service
 @Transactional
@@ -25,6 +27,8 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 
 	@Autowired
 	private MAppParameterRepository repository;
+	@Autowired
+	private Convention sorting;
 
 	private Logger log = LogManager.getLogger(MAppParameterServiceImpl.class);
 
@@ -36,7 +40,7 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 			lst = repository.findAll();
 
 		} catch (Exception ex) {
-			log.error("Error in findAll" +ex);
+			log.error("Error in findAll" + ex);
 			return Collections.emptyList();
 		}
 		return lst;
@@ -48,17 +52,23 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 
 	}
 
-	@Override
-	public Page<MAppParameter> findAll(Pageable paging) {
+	public Page<MAppParameter> findAllAppParameterDetails(ListViewParam request) {
 
-		return repository.findAll(paging);
+		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+				sorting.getPageSize(request.getPageSize()));
+		Page<MAppParameter> list = null;
+
+		if (ValidationUtil.isNull(request.getSearch())) {
+
+			list = repository.findAll(paging);
+
+		} else {
+			String sear = "%" + request.getSearch() + "%";
+
+			list = repository.findAll(sear, paging);
+		}
+		return list;
+
 	}
 
-	@Override
-	public Page<MAppParameter> findSearch(String search, Pageable paging) {
-
-		String sear = "%" + search + "%";
-
-		return repository.findAll(sear, paging);
-	}
 }
