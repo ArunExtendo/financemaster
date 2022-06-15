@@ -3,21 +3,18 @@ package com.maan.life.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import com.maan.life.bean.MCurrency;
+import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.Option;
 
 public interface MCurrencyService {
 	
-	List<MCurrency> getAll();
+	List<Option> getAll();
 
 	void saveorupdate(MCurrency request);
 
-	Page<MCurrency> findAll(Pageable paging);
-
-	Page<MCurrency> findSearch(String search, Pageable paging);
-
-	Page<MCurrency> findByCurrCode(String string, Pageable paging);
+	Page<MCurrency> findAllCurrencyDetails(ListViewParam request);
 	
 
 }

@@ -140,5 +140,5 @@ public class MAppCodes implements Serializable {
 	private LocalDateTime acUpdDt;
 	
 	@Transient
-	private Boolean create= true;
+	private Boolean create;
 }

@@ -13,8 +13,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maan.life.bean.MAppCodes;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MAppCodesRepository;
 import com.maan.life.service.MAppCodesService;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 
 @Service
 @Transactional
@@ -22,6 +25,8 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 
 	@Autowired
 	private MAppCodesRepository repository;
+	@Autowired
+	private Convention sorting;
 
 	private Logger log = LogManager.getLogger(MAppCodesServiceImpl.class);
 
@@ -44,14 +49,25 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 	}
 
 	@Override
-	public Page<MAppCodes> findSearch(String search, Pageable paging) {
-		String sear = "%" + search + "%";
-		return repository.findAll(sear, paging);
-	}
+	public Page<MAppCodes> findAllAppCodesDetails(ListViewParam request) {
 
-	@Override
-	public Page<MAppCodes> findAll(Pageable paging) {
-		return repository.findAll(paging);
+		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+				sorting.getPageSize(request.getPageSize()));
+		Page<MAppCodes> list = null;
+
+		if (ValidationUtil.isNull(request.getSearch())) {
+
+			list = repository.findAll(paging);
+
+		} else {
+			String sear = "%" + request.getSearch() + "%";
+
+			list = repository.findAll(sear, paging);
+		}
+		
+
+		return list;
+
 	}
 
 

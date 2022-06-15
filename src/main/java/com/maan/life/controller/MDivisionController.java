@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,6 @@ import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
 import com.maan.life.service.MDivisionService;
 import com.maan.life.service.MessagePropertyService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -47,7 +44,6 @@ public class MDivisionController {
 	private MDivisionService entityService;
 	private MessagePropertyService messageSource;
 	private @NonNull ResponseGenerator responseGenerator;
-	private Convention sorting;
 
 	private static final Logger logger = Logger.getLogger(MDivisionController.class);
 
@@ -99,29 +95,9 @@ public class MDivisionController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
-			
-			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-					sorting.getPageSize(request.getPageSize()));
-
-			List<MDivision> obj = new ArrayList<MDivision>();
-			Page<MDivision> list = null;
-			if (ValidationUtil.isNull(request.getSearch())) {
-
-				list = entityService.findAll(paging);
-				obj = list.getContent();
-			} else {
-				list = entityService.findSearch(request.getSearch(), paging);
-				obj = list.getContent();
-			}			
-			
-			if (request.getCode() != null) {
-				List<String> o = new ArrayList<String>();
-				for (String ob : request.getCode()) {
-					o.add(ob);
-				}
-				list = entityService.findByDivnCompCode(o.get(0), paging);
-				obj = list.getContent();
-			}
+			List<MDivision> obj = new ArrayList<>();
+			Page<MDivision> list = entityService.findAllDivisionDetails(request);
+			obj = list.getContent();
 			
 			
 			Map<String, Object> response = new HashMap<>();
