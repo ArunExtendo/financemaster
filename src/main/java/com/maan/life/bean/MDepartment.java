@@ -22,6 +22,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -82,27 +83,27 @@ public class MDepartment implements Serializable {
 	private String deptCompCode;
 
 	// --- ENTITY DATA FIELDS
-	@Size(max = 12, message = "Dept name must be within 240 character")
+	@Size(max = 240, message = "Dept name must be within 240 character")
 	@Column(name = "DEPT_NAME", length = 240)
 	private String deptName;
 
-	@Size(max = 12, message = "Dept short name must be within 30 character")
+	@Size(max = 30, message = "Dept short name must be within 30 character")
 	@Column(name = "DEPT_SHORT_NAME", length = 30)
 	private String deptShortName;
 
-	@Size(max = 12, message = "Dept header must be within 5 character")
+	@Size(max = 5, message = "Dept header must be within 5 character")
 	@Column(name = "DEPT_HEADER", length = 5)
 	private String deptHeader;
 	
-	@Size(max = 12, message = "Dept bl name must be within 240 character")
+	@Size(max = 240, message = "Dept bl name must be within 240 character")
 	@Column(name = "DEPT_BL_NAME", length = 240)
 	private String deptBlName;
 
-	@Size(max = 12, message = "Dept bl short name must be within 30 character")
+	@Size(max = 30, message = "Dept bl short name must be within 30 character")
 	@Column(name = "DEPT_BL_SHORT_NAME", length = 30)
 	private String deptBlShortName;
 
-	@Size(max = 12, message = "Dept frz flag must be within 1 character")
+	@Size(max = 1, message = "Dept frz flag must be within 1 character")
 	@Column(name = "DEPT_FRZ_FLAG", length = 1)
 	private String deptFrzFlag;
 
@@ -127,5 +128,7 @@ public class MDepartment implements Serializable {
 	private String deptUpdUid;
 
 	// --- ENTITY LINKS ( RELATIONSHIP )
+	@Transient
+	private Boolean create=true;
 
 }
