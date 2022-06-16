@@ -47,6 +47,7 @@ public class MAppCodesController {
 
 	private static final Logger logger = Logger.getLogger(MAppCodesController.class);
 
+	@ApiOperation(value = "API to Create or Update Appcodes Entity.", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(@ApiParam(value = "Request payload") @Valid @RequestBody MAppCodes request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -67,7 +68,7 @@ public class MAppCodesController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch all data List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch appcode List.", response = Response.class)
 	@GetMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
@@ -81,13 +82,13 @@ public class MAppCodesController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown " + e.getMessage(), e);
+			logger.error("Error in getAll list " + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch Grid List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch appcode entities to populate on Grid.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {

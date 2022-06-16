@@ -106,7 +106,7 @@ public class MCurrency implements Serializable {
 	private String currLogo;
 	
 	@Transient
-	private Boolean create;
+	private Boolean create=false;
 
 	// --- ENTITY LINKS ( RELATIONSHIP )
 	

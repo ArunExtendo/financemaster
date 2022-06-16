@@ -47,6 +47,7 @@ public class MDivisionController {
 
 	private static final Logger logger = Logger.getLogger(MDivisionController.class);
 
+	@ApiOperation(value = "API to Create or Update Division Entity.", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(@ApiParam(value = "Request payload") @Valid @RequestBody MDivision request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -68,7 +69,7 @@ public class MDivisionController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch all data List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch Division List.", response = Response.class)
 	@GetMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
@@ -88,7 +89,7 @@ public class MDivisionController {
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch Grid List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch division entities to populate on Grid.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {
@@ -119,6 +120,4 @@ public class MDivisionController {
 
 		}
 	}
-
-
 }

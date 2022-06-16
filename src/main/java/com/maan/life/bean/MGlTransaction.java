@@ -183,7 +183,7 @@ public class MGlTransaction implements Serializable {
 	private String tranFlex10;
 	
 	@Transient
-	private Boolean create = true;
+	private Boolean create =false;
 	
 
 	// --- ENTITY LINKS ( RELATIONSHIP )

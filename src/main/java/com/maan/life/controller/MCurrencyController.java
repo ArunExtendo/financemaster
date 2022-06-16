@@ -48,6 +48,7 @@ public class MCurrencyController {
 
 	private static final Logger logger = Logger.getLogger(MCurrencyController.class);
 
+	@ApiOperation(value = "API to Create or Update Currency Entity.", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(@ApiParam(value = "Request payload") @Valid @RequestBody MCurrency request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -66,14 +67,34 @@ public class MCurrencyController {
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch all data List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch currency list to populate on dropdown.", response = Response.class)
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
+		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
+
+		try {
+
+			List<Option> lst = entityService.getList();
+			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
+					HttpStatus.OK);
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			logger.error("Error in getAll for dropdown " + e.getMessage(), e);
+			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		}
+	}
+	
+	@ApiOperation(value = "Allows to fetch currency list.", response = Response.class)
 	@GetMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
 
-			List<Option> lst = entityService.getAll();
+			List<MCurrency> lst = entityService.getAll();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 
@@ -86,7 +107,7 @@ public class MCurrencyController {
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch Grid List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch currency entities to populate on Grid.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {

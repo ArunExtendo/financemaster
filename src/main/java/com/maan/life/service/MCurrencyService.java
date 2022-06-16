@@ -10,11 +10,13 @@ import com.maan.life.dto.Option;
 
 public interface MCurrencyService {
 	
-	List<Option> getAll();
+	List<Option> getList();
 
 	void saveorupdate(MCurrency request);
 
 	Page<MCurrency> findAllCurrencyDetails(ListViewParam request);
+
+	List<MCurrency> getAll();
 	
 
 }

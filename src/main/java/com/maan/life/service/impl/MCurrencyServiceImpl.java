@@ -1,6 +1,7 @@
 package com.maan.life.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,16 +32,32 @@ public class MCurrencyServiceImpl implements MCurrencyService {
 	
 	private Logger log = LogManager.getLogger(MCurrencyServiceImpl.class);
 	
-	public List<Option> getAll() {
-		List<Option> list = new ArrayList<Option>();
-		Option responseObj = null;
-		for (MCurrency mCurr : repository.findAll()) {
-			responseObj = new Option(mCurr, toString());
-			responseObj.setCode(mCurr.getCurrCode());
-			responseObj.setValue(mCurr.getCurrName());
-			list.add(responseObj);
+	@Override
+	public List<MCurrency> getAll() {
+		List<MCurrency> lst;
+		try {
+			lst = repository.findAll();
+
+		} catch (Exception ex) {
+			log.error("Error in findAll" + ex);
+			return Collections.emptyList();
 		}
-		return list;
+		return lst;
+	}
+
+	
+	@Override
+	public List<Option> getList() {
+		List<Option> lst;
+
+		try {
+			lst = repository.getList();
+
+		} catch (Exception ex) {
+			log.error("Error in findAll" + ex);
+			return Collections.emptyList();
+		}
+		return lst;
 	}
 
 	@Override
@@ -56,25 +73,22 @@ public class MCurrencyServiceImpl implements MCurrencyService {
 		Page<MCurrency> list = null;
 
 		if (ValidationUtil.isNull(request.getSearch())) {
-
 			list = repository.findAll(paging);
-
-		} else {
-			String sear = "%" + request.getSearch() + "%";
-
-			list = repository.findAll(sear, paging);
-		}
-		
-		if (request.getCode() != null) {
+			
+		} else if (request.getCode() != null) {
 			List<String> o = new ArrayList<String>();
 			for (String ob : request.getCode()) {
 				o.add(ob);
 			}
 			list = repository.findByCurrCode(o.get(0), paging);
+			
+		} else  {
+			String sear = "%" + request.getSearch() + "%";
+			list = repository.findAll(sear, paging);
 		}
-
 		return list;
 
 	}
+
 
 }
