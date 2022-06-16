@@ -23,13 +23,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -49,7 +50,6 @@ import lombok.ToString;
 @Entity
 @DynamicInsert
 @DynamicUpdate
-@Builder
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "M_GL_TRANSACTION")
 
@@ -59,58 +59,77 @@ public class MGlTransaction implements Serializable {
 
 	// --- ENTITY PRIMARY KEY
 	@Id
+	@NotEmpty(message = "Tran code required")
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_CODE", nullable = false, length = 12)
 	private String tranCode;
 
 	// --- ENTITY DATA FIELDS
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_NAME", length = 240)
 	private String tranName;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_BL_NAME", length = 240)
 	private String tranBlName;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
+	@NotEmpty(message = "tran type required")
 	@Column(name = "TRAN_TYPE", nullable = false, length = 12)
 	private String tranType;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_POST_MODE", length = 1)
 	private String tranPostMode;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_SOURCE", length = 1)
 	private String tranSource;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_ACNT_TYPE", length = 1)
 	private String tranAcntType;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_BACK_DAYS")
 	private BigDecimal tranBackDays;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_FUTURE_DAYS")
 	private BigDecimal tranFutureDays;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_UA_REQ_YN", length = 1)
 	private String tranUaReqYn;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_UA_TYPE", length = 12)
 	private String tranUaType;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_AUTO_PRINT_YN", length = 1)
 	private String tranAutoPrintYn;
 
+	
 	@Column(name = "TRAN_MIN_AMT")
 	private BigDecimal tranMinAmt;
 
 	@Column(name = "TRAN_MAX_AMT")
 	private BigDecimal tranMaxAmt;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_DFLT_MAIN_ACNT_CODE", length = 12)
 	private String tranDfltMainAcntCode;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_DFLT_SUB_ACNT_CODE", length = 12)
 	private String tranDfltSubAcntCode;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_DFLT_CHRG_ACNT_CODE", length = 12)
 	private String tranDfltChrgAcntCode;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_FREEZ_YN", length = 1)
 	private String tranFreezYn;
 
@@ -118,6 +137,7 @@ public class MGlTransaction implements Serializable {
 	@Column(name = "TRAN_FREEZ_DT")
 	private Date tranFreezDt;
 
+	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_CR_UID", length = 12)
 	private String tranCrUid;
 
@@ -163,7 +183,8 @@ public class MGlTransaction implements Serializable {
 	private String tranFlex10;
 	
 	@Transient
-	private Boolean create;
+	private Boolean create =false;
+	
 
 	// --- ENTITY LINKS ( RELATIONSHIP )
 

@@ -3,9 +3,9 @@ package com.maan.life.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import com.maan.life.bean.MDivision;
+import com.maan.life.dto.ListViewParam;
 
 public interface MDivisionService {
 
@@ -13,10 +13,7 @@ public interface MDivisionService {
 
 	void saveorupdate(MDivision request);
 
-	Page<MDivision> findAll(Pageable paging);
-
-	Page<MDivision> findSearch(String search, Pageable paging);
-
-	Page<MDivision> findByDivnCompCode(String string, Pageable paging);
+	Page<MDivision> findAllDivisionDetails(ListViewParam request);
+	
 
 }

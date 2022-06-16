@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,6 @@ import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
 import com.maan.life.service.MAppCodesService;
 import com.maan.life.service.MessagePropertyService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -47,10 +44,10 @@ public class MAppCodesController {
 	private MAppCodesService entityService;
 	private MessagePropertyService messageSource;
 	private @NonNull ResponseGenerator responseGenerator;
-	private Convention sorting;
 
 	private static final Logger logger = Logger.getLogger(MAppCodesController.class);
 
+	@ApiOperation(value = "API to Create or Update Appcodes Entity.", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(@ApiParam(value = "Request payload") @Valid @RequestBody MAppCodes request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -71,7 +68,7 @@ public class MAppCodesController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch all data List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch appcode List.", response = Response.class)
 	@GetMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
@@ -85,33 +82,23 @@ public class MAppCodesController {
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown " + e.getMessage(), e);
+			logger.error("Error in getAll list " + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch Grid List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch appcode entities to populate on Grid.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
-			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-					sorting.getPageSize(request.getPageSize()));
 
-			List<MAppCodes> obj = new ArrayList<MAppCodes>();
-			Page<MAppCodes> list = null;
-			if (ValidationUtil.isNull(request.getSearch())) {
-
-				list = entityService.findAll(paging);
-				obj = list.getContent();
-			} else {
-				list = entityService.findSearch(request.getSearch(), paging);
-				obj = list.getContent();
-
-			}
+			List<MAppCodes> obj = new ArrayList<>();
+			Page<MAppCodes> list = entityService.findAllAppCodesDetails(request);
+			obj = list.getContent();
 
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);

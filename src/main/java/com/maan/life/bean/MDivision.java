@@ -141,7 +141,7 @@ public class MDivision implements Serializable {
 	private String divnUnitName;
 	
 	@Transient
-	private Boolean create= true;
+	private Boolean create=false;
 
 	// --- ENTITY LINKS ( RELATIONSHIP )
 
