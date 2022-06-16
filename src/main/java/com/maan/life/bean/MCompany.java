@@ -28,6 +28,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Domain class for entity "MCompany"
+ *
+ * @author Thamizhazhagan Velayudham
+ *
+ */
 @Getter
 @Setter
 @NoArgsConstructor
@@ -51,27 +57,27 @@ public class MCompany implements Serializable {
 	private String compCode;
 
 	// --- ENTITY DATA FIELDS
-	@Size(max = 12, message = "Comp name must be within 240 character")
+	@Size(max = 240, message = "Comp name must be within 240 character")
 	@Column(name = "COMP_NAME", length = 240)
 	private String compName;
 
-	@Size(max = 12, message = "Comp short name must be within 30 character")
+	@Size(max = 30, message = "Comp short name must be within 30 character")
 	@Column(name = "COMP_SHORT_NAME", length = 30)
 	private String compShortName;
 
-	@Size(max = 12, message = "Comp logo must be within 60 character")
+	@Size(max = 60, message = "Comp logo must be within 60 character")
 	@Column(name = "COMP_LOGO", length = 60)
 	private String compLogo;
-	
-	@Size(max = 12, message = "Comp add1 must be within 240 character")
+
+	@Size(max = 240, message = "Comp add1 must be within 240 character")
 	@Column(name = "COMP_ADD_1", length = 240)
 	private String compAdd1;
 
-	@Size(max = 12, message = "Comp add2 must be within 240 character")
+	@Size(max = 240, message = "Comp add2 must be within 240 character")
 	@Column(name = "COMP_ADD_2", length = 240)
 	private String compAdd2;
 
-	@Size(max = 12, message = "Comp add3 must be within 240 character")
+	@Size(max = 240, message = "Comp add3 must be within 240 character")
 	@Column(name = "COMP_ADD_3", length = 240)
 	private String compAdd3;
 
@@ -83,27 +89,27 @@ public class MCompany implements Serializable {
 	@Column(name = "COMP_DFLT_DEPT_CODE", length = 12)
 	private String compDfltDeptCode;
 
-	@Size(max = 12, message = "Comp bl name must be within 240 character")
+	@Size(max = 240, message = "Comp bl name must be within 240 character")
 	@Column(name = "COMP_BL_NAME", length = 240)
 	private String compBlName;
 
-	@Size(max = 12, message = "Comp bl short name must be within 30 character")
+	@Size(max = 30, message = "Comp bl short name must be within 30 character")
 	@Column(name = "COMP_BL_SHORT_NAME", length = 30)
 	private String compBlShortName;
 
-	@Size(max = 12, message = "Comp bl add1 must be within 240 character")
+	@Size(max = 240, message = "Comp bl add1 must be within 240 character")
 	@Column(name = "COMP_BL_ADD_1", length = 240)
 	private String compBlAdd1;
 
-	@Size(max = 12, message = "Comp bl add2 must be within 240 character")
+	@Size(max = 240, message = "Comp bl add2 must be within 240 character")
 	@Column(name = "COMP_BL_ADD_2", length = 240)
 	private String compBlAdd2;
 
-	@Size(max = 12, message = "Comp bl add3 must be within 240 character")
+	@Size(max = 240, message = "Comp bl add3 must be within 240 character")
 	@Column(name = "COMP_BL_ADD_3", length = 240)
 	private String compBlAdd3;
 
-	@Size(max = 12, message = "Comp frz flag must be within 1 character")
+	@Size(max = 1, message = "Comp frz flag must be within 1 character")
 	@Column(name = "COMP_FRZ_FLAG", length = 1)
 	private String compFrzFlag;
 
@@ -118,19 +124,19 @@ public class MCompany implements Serializable {
 	@Column(name = "COMP_ROUND_OFF")
 	private BigDecimal compRoundOff;
 
-	@Size(max = 12, message = "Comp unit name must be within 240 character")
+	@Size(max = 240, message = "Comp unit name must be within 240 character")
 	@Column(name = "COMP_UNIT_NAME", length = 240)
 	private String compUnitName;
 
-	@Size(max = 12, message = "Comp email id must be within 60 character")
+	@Size(max = 60, message = "Comp email id must be within 60 character")
 	@Column(name = "COMP_EMAIL_ID", length = 60)
 	private String compEmailId;
 
-	@Size(max = 12, message = "Comp tel no must be within 60 character")
+	@Size(max = 60, message = "Comp tel no must be within 60 character")
 	@Column(name = "COMP_TEL_NO", length = 60)
 	private String compTelNo;
 
-	@Size(max = 12, message = "Comp fax no must be within 60 character")
+	@Size(max = 60, message = "Comp fax no must be within 60 character")
 	@Column(name = "COMP_FAX_NO", length = 60)
 	private String compFaxNo;
 
@@ -156,26 +162,19 @@ public class MCompany implements Serializable {
 	@Column(name = "COMP_BASE_CURR_CODE_3", length = 12)
 	private String compBaseCurrCode3;
 
-	@Size(max = 12, message = "Comp reg no must be within 240 character")
+	@Size(max = 240, message = "Comp reg no must be within 240 character")
 	@Column(name = "COMP_REG_NO", length = 240)
 	private String compRegNo;
 
-	@Size(max = 12, message = "Comp trade ref no must be within 240 character")
+	@Size(max = 240, message = "Comp trade ref no must be within 240 character")
 	@Column(name = "COMP_TRADE_REF_NO", length = 240)
 	private String compTradeRefNo;
 
-	@Size(max = 12, message = "Comp theme must be within 60 character")
+	@Size(max = 60, message = "Comp theme must be within 60 character")
 	@Column(name = "COMP_THEME", length = 60)
 	private String compTheme;
 
 	@Transient
-	private Boolean check;
-
-//	// --- ENTITY LINKS ( RELATIONSHIP )
-//	@OneToMany(mappedBy = "mCompany")
-//	private List<MDivision> listOfMDivision;
-//
-//	@OneToMany(mappedBy = "mCompany")
-//	private List<MProdSchemes> listOfMProdSchemes;
+	private Boolean create=false;
 
 }

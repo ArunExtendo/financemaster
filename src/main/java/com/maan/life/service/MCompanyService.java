@@ -4,25 +4,15 @@ package com.maan.life.service;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import com.maan.life.bean.MCompany;
+import com.maan.life.dto.ListViewParam;
 
 public interface MCompanyService {
 
-	MCompany create(MCompany d);
-
-	MCompany update(MCompany d);
-
-    //MCompany getOne(long id) ;
-	List<MCompany> getAll();
-
-	long getTotal();
-
+	List<MCompany> getList();
+	
 	public void saveorupdate(MCompany obj);
 
-	Page<MCompany> findAll(Pageable paging);
-
-	Page<MCompany> findSearch(String search, Pageable paging);
-
+	Page<MCompany> findAllCompanyDetails(ListViewParam request);
 }

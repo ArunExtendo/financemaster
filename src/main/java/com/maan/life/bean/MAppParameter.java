@@ -22,6 +22,7 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -76,28 +77,27 @@ public class MAppParameter implements Serializable {
 	private String paraSubCode;
 
 	// --- ENTITY DATA FIELDS
-	@Size(max = 12, message = "Para name must be within 240 character")
+	@Size(max = 240, message = "Para name must be within 240 character")
 	@Column(name = "PARA_NAME", length = 240)
 	private String paraName;
 
-	@Size(max = 12, message = "Para name bl must be within 240 character")
+	@Size(max = 240, message = "Para name bl must be within 240 character")
 	@Column(name = "PARA_NAME_BL", length = 240)
 	private String paraNameBl;
 
-	@Size(max = 12, message = "Para value must be within 240 character")
+	@Size(max = 240, message = "Para value must be within 240 character")
 	@Column(name = "PARA_VALUE", length = 240)
 	private String paraValue;
 
-	@Size(max = 12, message = "Para remark must be within 4000 character")
+	@Size(max = 4000, message = "Para remark must be within 4000 character")
 	@Column(name = "PARA_REMARK", length = 4000)
 	private String paraRemark;
 
-	@Size(max = 12, message = "Para remark bl must be within 4000 character")
+	@Size(max = 4000, message = "Para remark bl must be within 4000 character")
 	@Column(name = "PARA_REMARK_BL", length = 4000)
 	private String paraRemarkBl;
 	
 	@CreatedBy
-	@NotEmpty(message = "Para CrUid required")
 	@Size(max = 12, message = "Para CrUid  must be within 12 character")
 	@Column(name = "PARA_CR_UID", nullable = false, length = 12)
 	private String paraCrUid;
@@ -116,5 +116,8 @@ public class MAppParameter implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "PARA_UPD_DT")
 	private Date paraUpdDt;
+	
+	@Transient
+	private Boolean create =false;
 
 }
