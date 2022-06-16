@@ -34,7 +34,7 @@ public interface MDepartmentRepository
 		extends JpaRepository<MDepartment, MDepartmentId>, JpaSpecificationExecutor<MDepartment> {
 
 	@Query(value = "select * from M_DEPARTMENT where upper(DEPT_CODE || DEPT_NAME) like upper(:search)", nativeQuery = true)
-	Page<MDepartment> findSearch(String search, Pageable paging);
+	Page<MDepartment> findAll(String search, Pageable paging);
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 

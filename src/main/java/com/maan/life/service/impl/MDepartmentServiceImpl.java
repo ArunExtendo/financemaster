@@ -5,6 +5,7 @@
 */
 package com.maan.life.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +18,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maan.life.bean.MCompany;
 import com.maan.life.bean.MDepartment;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MDepartmentRepository;
 import com.maan.life.service.MDepartmentService;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 
 /**
  * <h2>MDepartmentServiceimpl</h2>
@@ -30,6 +35,10 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 
 	@Autowired
 	private MDepartmentRepository repository;
+
+	@Autowired
+	private Convention sorting;
+
 	private Logger log = LogManager.getLogger(MDepartmentServiceImpl.class);
 
 	@Override
@@ -43,26 +52,34 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 		try {
 			list = repository.findAll();
 		} catch (Exception ex) {
-			log.error("Error in getAll" +ex);
+			log.error("Error in getAll" + ex);
 			return Collections.emptyList();
 		}
 		return list;
 	}
 
-	@Override
-	public Page<MDepartment> findAll(Pageable paging) {
-		return repository.findAll(paging);
-	}
-
-	@Override
-	public Page<MDepartment> findSearch(String search, Pageable paging) {
-		String sear = "%" + search + "%";
-
-		return repository.findSearch(sear, paging);
-	}
-
 	public Optional<MDepartment> findByDeptCode(String deptCode) {
 		return repository.findByDeptCode(deptCode);
+	}
+
+	public Page<MDepartment> findAllDepartmentDetails(ListViewParam request) {
+
+		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+				sorting.getPageSize(request.getPageSize()));
+		Page<MDepartment> list = null;
+		if (!ValidationUtil.isNull(request.getSearch())) {
+			String sear = "%" + request.getSearch() + "%";
+			list = repository.findAll(sear, paging);
+		} else if (request.getCode() != null) {
+			List<String> o = new ArrayList<String>();
+			for (String ob : request.getCode()) {
+				o.add(ob);
+			}
+			list = repository.findByDeptCompCodeAndDeptDivnCode(o.get(0), o.get(1), paging);
+		} else {
+			list = repository.findAll(paging);
+		}
+		return list;
 	}
 
 	public Page<MDepartment> findByDeptCompCodeAndDeptDivnCode(String depotCompCode, String deptDivnCode,
