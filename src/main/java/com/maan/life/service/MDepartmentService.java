@@ -21,13 +21,12 @@ public interface MDepartmentService {
 
 	void saveorupdate(MDepartment d);
 
-	// MDepartment getOne(long id) ;
 	List<MDepartment> getAll();
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 
 	Page<MDepartment> findByDeptCompCodeAndDeptDivnCode(String depotCompCode, String deptDivnCode, Pageable paging);
 
-	Page<MDepartment> findAllCompanyDetails(ListViewParam request);
+	Page<MDepartment> findAllDepartmentDetails(ListViewParam request);
 
 }

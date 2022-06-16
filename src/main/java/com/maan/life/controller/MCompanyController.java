@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.maan.life.dto.Option;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,7 +74,7 @@ public class MCompanyController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
 
-			List<Option> lst = entityService.getList();
+			List<MCompany> lst = entityService.getList();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 

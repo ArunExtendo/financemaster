@@ -96,7 +96,7 @@ public class MDepartmentController {
 
 		try {
 			List<MDepartment> obj = new ArrayList<>();
-			Page<MDepartment> list = entityService.findAllCompanyDetails(request);
+			Page<MDepartment> list = entityService.findAllDepartmentDetails(request);
 			obj = list.getContent();
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);

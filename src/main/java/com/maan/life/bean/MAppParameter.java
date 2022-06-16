@@ -118,6 +118,6 @@ public class MAppParameter implements Serializable {
 	private Date paraUpdDt;
 	
 	@Transient
-	private Boolean create;
+	private Boolean create =false;
 
 }

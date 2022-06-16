@@ -19,7 +19,7 @@ public interface MCompanyRepository extends JpaRepository<MCompany, String>, Jpa
 	Page<MCompany> findAll(@Param("search") String search, Pageable paging);
 
 
-	@Query(value = "select new com.maan.life.dto.Option(c.compCode,c.compName) from MCompany c where c.compFrzFlag <> 'Y'  " )
+	@Query(value = "select new com.maan.life.dto.Option(c.compCode,c.compName) from MCompany c " )
 	List<Option> getList();
 
 }

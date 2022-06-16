@@ -35,7 +35,6 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 	@Override
 	public List<MAppParameter> getAll() {
 		List<MAppParameter> lst;
-
 		try {
 			lst = repository.findAll();
 
@@ -56,16 +55,13 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
+		
 		Page<MAppParameter> list = null;
-
-		if (ValidationUtil.isNull(request.getSearch())) {
-
-			list = repository.findAll(paging);
-
-		} else {
+		if (!ValidationUtil.isNull(request.getSearch())) {
 			String sear = "%" + request.getSearch() + "%";
-
 			list = repository.findAll(sear, paging);
+		} else {
+			list = repository.findAll(paging);
 		}
 		return list;
 

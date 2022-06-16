@@ -37,7 +37,7 @@ import lombok.NonNull;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @AllArgsConstructor(onConstructor_ = { @Autowired })
-@RequestMapping("/mExchange")
+@RequestMapping("/mexchange")
 public class MExchangeRateController {
 
 	@Autowired
@@ -90,7 +90,7 @@ public class MExchangeRateController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
 			List<MExchangeRate> obj = new ArrayList<>();
-			Page<MExchangeRate> list = entityService.findAllMExchangeRate(request);
+			Page<MExchangeRate> list = entityService.findAllExchangeRateDetails(request);
 			obj = list.getContent();
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);
@@ -100,11 +100,8 @@ public class MExchangeRateController {
 
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
-
 		} catch (
-
 		Exception e) {
-
 			e.printStackTrace();
 			logger.error("Error in getAll for Grid List" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);

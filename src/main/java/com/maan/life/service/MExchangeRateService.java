@@ -13,6 +13,6 @@ public interface MExchangeRateService {
 
 	List<MExchangeRate> getAll();
 	
-	Page<MExchangeRate> findAllMExchangeRate(ListViewParam request);
+	Page<MExchangeRate> findAllExchangeRateDetails(ListViewParam request);
 
 }

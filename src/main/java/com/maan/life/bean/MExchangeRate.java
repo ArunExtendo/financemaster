@@ -121,7 +121,7 @@ public class MExchangeRate implements Serializable {
 	private Date erUpdDt;
 
 	@Transient
-	private Boolean create;
+	private Boolean create =false;
 
 	// --- ENTITY LINKS ( RELATIONSHIP )
 

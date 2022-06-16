@@ -5,7 +5,6 @@
 */
 package com.maan.life.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,8 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MCompany;
-import com.maan.life.bean.MDepartment;
 import com.maan.life.bean.MExchangeRate;
 import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MExchangeRateRepository;
@@ -65,19 +62,18 @@ public class MExchangeRateServiceImpl implements MExchangeRateService {
 		repository.saveAndFlush(obj);
 	}
 	
-	public Page<MExchangeRate> findAllMExchangeRate(ListViewParam request) {
+	public Page<MExchangeRate> findAllExchangeRateDetails(ListViewParam request) {
 
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
 		Page<MExchangeRate> list = null;
 
-		if (ValidationUtil.isNull(request.getSearch())) {
-
-			list = repository.findAll(paging);
-		} else {
+		if (!ValidationUtil.isNull(request.getSearch())) {
 			String sear = "%" + request.getSearch() + "%";
 
 			list = repository.findAll(sear, paging);
+		} else {
+			list = repository.findAll(paging);
 		}
 		return list;
 	}

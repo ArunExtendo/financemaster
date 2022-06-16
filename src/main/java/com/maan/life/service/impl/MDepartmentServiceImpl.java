@@ -62,26 +62,22 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 		return repository.findByDeptCode(deptCode);
 	}
 
-	public Page<MDepartment> findAllCompanyDetails(ListViewParam request) {
+	public Page<MDepartment> findAllDepartmentDetails(ListViewParam request) {
 
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
 		Page<MDepartment> list = null;
-
-		if (ValidationUtil.isNull(request.getSearch())) {
-
-			list = repository.findAll(paging);
-		} else {
+		if (!ValidationUtil.isNull(request.getSearch())) {
 			String sear = "%" + request.getSearch() + "%";
-
 			list = repository.findAll(sear, paging);
-		}
-		if (request.getCode() != null) {
+		} else if (request.getCode() != null) {
 			List<String> o = new ArrayList<String>();
 			for (String ob : request.getCode()) {
 				o.add(ob);
 			}
 			list = repository.findByDeptCompCodeAndDeptDivnCode(o.get(0), o.get(1), paging);
+		} else {
+			list = repository.findAll(paging);
 		}
 		return list;
 	}

@@ -16,4 +16,7 @@ public interface MAppParameterRepository
 
 	@Query(value = "select * from M_APP_PARAMETER where upper(PARA_CODE || PARA_SUB_CODE || PARA_NAME || PARA_NAME_BL || PARA_REMARK || PARA_REMARK_BL || PARA_VALUE) like upper(:search)", nativeQuery = true)
 	Page<MAppParameter> findAll(@Param("search") String search, Pageable paging);
+	
+//	@Query(value = "select new com.maan.life.dto.Option(m.paraCode,m.paraSubCode,m.paraName) from MAppParameter m " )
+//	List<MAppParameter> getList();
 }
