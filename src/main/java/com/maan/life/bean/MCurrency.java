@@ -13,19 +13,21 @@ package com.maan.life.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +50,7 @@ import lombok.ToString;
 @DynamicInsert
 @DynamicUpdate
 @Table(name = "M_CURRENCY")
-
+@EntityListeners(AuditingEntityListener.class)
 public class MCurrency implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -84,23 +86,22 @@ public class MCurrency implements Serializable {
 	@Column(name = "CURR_FREEZ_YN", length = 1)
 	private String currFreezYn;
 
-	@Temporal(TemporalType.DATE)
 	@Column(name = "CURR_FREEZ_DT")
-	private Date currFreezDt;
+	private LocalDateTime currFreezDt;
 
 	@Column(name = "CURR_CR_UID", length = 12)
 	private String currCrUid;
 
-	@Temporal(TemporalType.DATE)
+	@CreatedDate
 	@Column(name = "CURR_CR_DT")
-	private Date currCrDt;
-
+	private LocalDateTime currCrDt;
+	
 	@Column(name = "CURR_UPD_UID", length = 12)
 	private String currUpdUid;
 
-	@Temporal(TemporalType.DATE)
+	@LastModifiedDate
 	@Column(name = "CURR_UPD_DT")
-	private Date currUpdDt;
+	private LocalDateTime currUpdDt;
 
 	@Column(name = "CURR_LOGO", length = 240)
 	private String currLogo;

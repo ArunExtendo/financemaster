@@ -56,27 +56,31 @@ public class MDivisionServiceImpl implements MDivisionService {
 				sorting.getPageSize(request.getPageSize()));
 		Page<MDivision> list = null;
 
-		if (ValidationUtil.isNull(request.getSearch())) {
-
-			list = repository.findAll(paging);
-
-		} else {
-			String sear = "%" + request.getSearch() + "%";
-
-			list = repository.findAll(sear, paging);
-		}
-		
-		if (request.getCode() != null) {
+		if (request.getCode() != null && request.getCode().length != 0) {
 			List<String> o = new ArrayList<String>();
+			String sear = null;
+			if (request.getSearch() == null) {
+				sear = "%%";
+			} else {
+				sear = "%" + request.getSearch() + "%";
+			}
 			for (String ob : request.getCode()) {
 				o.add(ob);
 			}
-			list = repository.findByDivnCompCode(o.get(0), paging);
+			list = repository.findBySearchAndDivnCompCode(sear, o.get(0), paging);
+
+		} else if (!ValidationUtil.isNull(request.getSearch())) {
+			String sear = "%" + request.getSearch() + "%";
+			list = repository.findAll(sear, paging);
+		} else {
+			list = repository.findAll(paging);
 		}
 
 		return list;
 
 	}
+	
+	
 
 
 }

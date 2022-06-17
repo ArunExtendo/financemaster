@@ -87,25 +87,25 @@ public class MCurrencyController {
 		}
 	}
 	
-	@ApiOperation(value = "Allows to fetch currency list.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
-		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
-		try {
-
-			List<MCurrency> lst = entityService.getAll();
-			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
-					HttpStatus.OK);
-
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			logger.error("Error in getAll for dropdown " + e.getMessage(), e);
-			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
-
-		}
-	}
+//	@ApiOperation(value = "Allows to fetch currency list.", response = Response.class)
+//	@GetMapping(value = "/getAll", produces = "application/json")
+//	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+//		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
+//
+//		try {
+//
+//			List<MCurrency> lst = entityService.getAll();
+//			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
+//					HttpStatus.OK);
+//
+//		} catch (Exception e) {
+//
+//			e.printStackTrace();
+//			logger.error("Error in getAll for dropdown " + e.getMessage(), e);
+//			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+//
+//		}
+//	}
 
 	@ApiOperation(value = "Allows to fetch currency entities to populate on Grid.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
