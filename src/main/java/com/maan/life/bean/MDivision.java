@@ -13,7 +13,7 @@ package com.maan.life.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,8 +21,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -107,14 +105,12 @@ public class MDivision implements Serializable {
 	private String divnCrUid ;
 
 	@CreatedDate
-	@Temporal(TemporalType.DATE)
 	@Column(name = "DIVN_CR_DT")
-	private Date divnCrDt;
+	private LocalDateTime divnCrDt;
 
 	@LastModifiedDate
-	@Temporal(TemporalType.DATE)
 	@Column(name = "DIVN_UPD_DT")
-	private Date divnUpdDt;
+	private LocalDateTime divnUpdDt;
 
 	@LastModifiedBy
 	@Size(max = 12, message = "Divn upd uid must be within 12 character")
