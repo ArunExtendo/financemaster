@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +28,6 @@ import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
 import com.maan.life.service.MCompanyService;
 import com.maan.life.service.MessagePropertyService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -46,57 +43,50 @@ public class MCompanyController {
 	@Autowired
 	private MCompanyService entityService;
 	private MessagePropertyService messageSource;
-	private Convention sorting;
 
 	private static final Logger logger = Logger.getLogger(MCompanyController.class);
 
 	private @NonNull ResponseGenerator responseGenerator;
 
-	@ApiOperation(value = "Create or Update.", response = Response.class)
+	@ApiOperation(value = "API to Create or Update Company Entity", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(
-			@ApiParam(value = "The Line of Business request payload") @Valid @RequestBody MCompany request,
+			@ApiParam(value = "Company request payload") @Valid @RequestBody MCompany request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
 		try {
 			entityService.saveorupdate(request);
-
 			return responseGenerator.successResponse(context, messageSource.getMessage("saved"), HttpStatus.OK);
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
 			logger.error("Error in createOrupdate" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
-
 		}
 
 	}
 
-	@ApiOperation(value = "Allows to fetch dropdown List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch company list to populate on dropdown.", response = Response.class)
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
 		try {
 
-			List<MCompany> lst = entityService.getAll();
+			List<MCompany> lst = entityService.getList();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
-			logger.error("Error in getAll for dropdown List" + e.getMessage(), e);
+			logger.error("Error in getList for dropdown " + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
 
-	@ApiOperation(value = "Allows to fetch Grid List.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch company entities to populate on Grid.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {
@@ -104,39 +94,19 @@ public class MCompanyController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-					sorting.getPageSize(request.getPageSize()));
-
 			List<MCompany> obj = new ArrayList<MCompany>();
 			Page<MCompany> list = null;
-
-			if (ValidationUtil.isNull(request.getSearch())) {
-
-				list = entityService.findAll(paging);
-
-			} else {
-
-				list = entityService.findSearch(request.getSearch(), paging);
-
-			}
-
-			list = entityService.findSearch(request.getSearch(), paging);
-
+			list = entityService.findAllCompanyDetails(request);
 			obj = list.getContent();
-
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);
 			response.put("currentPage", list.getNumber());
 			response.put("totalItems", list.getTotalElements());
 			response.put("totalPages", list.getTotalPages());
-
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 
-		} catch (
-
-		Exception e) {
-
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);

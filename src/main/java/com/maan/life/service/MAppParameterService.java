@@ -5,9 +5,9 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import com.maan.life.bean.MAppParameter;
+import com.maan.life.dto.ListViewParam;
 
 public interface MAppParameterService {
 
@@ -15,7 +15,5 @@ public interface MAppParameterService {
 
 	void saveorupdate(@Valid MAppParameter request);
 
-	Page<MAppParameter> findSearch(String search, Pageable paging);
-
-	Page<MAppParameter> findAll(Pageable paging);
+	Page<MAppParameter> findAllAppParameterDetails(ListViewParam request);
 }
