@@ -12,6 +12,8 @@
 package com.maan.life.bean;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -33,6 +35,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -103,9 +107,8 @@ public class MAppParameter implements Serializable {
 	private String paraCrUid;
      
 	@CreatedDate
-	@Temporal(TemporalType.DATE)
 	@Column(name = "PARA_CR_DT")
-	private Date paraCrDt;
+	private LocalDateTime paraCrDt;
 	
 	@LastModifiedBy
 	@Size(max = 12, message = "ParaUpd Uid must be within 12 character")
@@ -113,9 +116,8 @@ public class MAppParameter implements Serializable {
 	private String paraUpdUid;
 
 	@LastModifiedDate
-	@Temporal(TemporalType.DATE)
 	@Column(name = "PARA_UPD_DT")
-	private Date paraUpdDt;
+	private LocalDateTime paraUpdDt;
 	
 	@Transient
 	private Boolean create =false;

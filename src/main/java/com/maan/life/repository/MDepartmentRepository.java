@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.maan.life.bean.MDepartment;
 import com.maan.life.bean.MDepartmentId;
@@ -38,6 +39,7 @@ public interface MDepartmentRepository
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 
-	Page<MDepartment> findByDeptCompCodeAndDeptDivnCode(String depotCompCode, String deptDivnCode, Pageable paging);
+	@Query(value = "select * from M_DEPARTMENT where upper(DEPT_COMP_CODE || DEPT_DIVN_CODE || DEPT_CODE || DEPT_NAME) like upper(:search) and DEPT_COMP_CODE = :deptCompCode and DEPT_DIVN_CODE =:deptDivnCode ", nativeQuery = true)
+	Page<MDepartment> findByDeptCompCodeAndDeptDivnCode(@Param("search") String search,@Param("deptCompCode") String deptCompCode, @Param("deptDivnCode") String deptDivnCode, Pageable paging);
 
 }

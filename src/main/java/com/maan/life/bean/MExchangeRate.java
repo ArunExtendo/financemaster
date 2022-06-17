@@ -13,6 +13,7 @@ package com.maan.life.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -106,9 +107,8 @@ public class MExchangeRate implements Serializable {
 	private String erCrUid;
 
 	@CreatedDate
-	@Temporal(TemporalType.DATE)
 	@Column(name = "ER_CR_DT")
-	private Date erCrDt;
+	private LocalDateTime erCrDt;
 
 	@LastModifiedBy
 	@Size(max = 12, message = "Er upd uid must be within 12 character")
@@ -116,9 +116,8 @@ public class MExchangeRate implements Serializable {
 	private String erUpdUid;
 
 	@LastModifiedDate
-	@Temporal(TemporalType.DATE)
 	@Column(name = "ER_UPD_DT")
-	private Date erUpdDt;
+	private LocalDateTime erUpdDt;
 
 	@Transient
 	private Boolean create =false;

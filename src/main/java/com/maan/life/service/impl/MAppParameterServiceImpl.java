@@ -4,8 +4,6 @@ package com.maan.life.service.impl;
 import java.util.Collections;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +44,7 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 	}
 
 	@Override
-	public void saveorupdate(@Valid MAppParameter request) {
+	public void saveorupdate(MAppParameter request) {
 		repository.saveAndFlush(request);
 
 	}

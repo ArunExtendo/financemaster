@@ -12,7 +12,7 @@
 package com.maan.life.bean;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -113,14 +113,12 @@ public class MDepartment implements Serializable {
 	private String deptCrUid;
 
 	@CreatedDate
-	@Temporal(TemporalType.DATE)
-	@Column(name = "DEPT_CR_DT")
-	private Date deptCrDt = new Date();;
+	@Column(name = "DEPT_CR_DT",updatable = false)
+	private LocalDateTime deptCrDt;
 
 	@LastModifiedDate
-	@Temporal(TemporalType.DATE)
 	@Column(name = "DEPT_UPD_DT")
-	private Date deptUpdDt;
+	private LocalDateTime deptUpdDt;
 
 	@LastModifiedBy
 	@Size(max = 12, message = "Dept updUid must be within 12 character")

@@ -18,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MCompany;
 import com.maan.life.bean.MDepartment;
 import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MDepartmentRepository;
@@ -67,24 +66,26 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
 		Page<MDepartment> list = null;
-		if (!ValidationUtil.isNull(request.getSearch())) {
-			String sear = "%" + request.getSearch() + "%";
-			list = repository.findAll(sear, paging);
-		} else if (request.getCode() != null) {
+
+		if (request.getCode() != null && request.getCode().length != 0) {
 			List<String> o = new ArrayList<String>();
+			String sear = null;
+			if (request.getSearch() == null) {
+				sear = "%%";
+			} else {
+				sear = "%" + request.getSearch() + "%";
+			}
 			for (String ob : request.getCode()) {
 				o.add(ob);
 			}
-			list = repository.findByDeptCompCodeAndDeptDivnCode(o.get(0), o.get(1), paging);
+			list = repository.findByDeptCompCodeAndDeptDivnCode(sear, o.get(0), o.get(1), paging);
+
+		} else if (!ValidationUtil.isNull(request.getSearch())) {
+			String sear = "%" + request.getSearch() + "%";
+			list = repository.findAll(sear, paging);
 		} else {
 			list = repository.findAll(paging);
 		}
 		return list;
-	}
-
-	public Page<MDepartment> findByDeptCompCodeAndDeptDivnCode(String depotCompCode, String deptDivnCode,
-			Pageable paging) {
-		return repository.findByDeptCompCodeAndDeptDivnCode(depotCompCode, deptDivnCode, paging);
-
 	}
 }
