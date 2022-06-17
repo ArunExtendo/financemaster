@@ -46,7 +46,8 @@ public class MAppParameterController {
 	private @NonNull ResponseGenerator responseGenerator;
 
 	private static final Logger logger = Logger.getLogger(MAppParameterController.class);
-
+	
+	@ApiOperation(value = "API to Create or Update AppParameter Entity", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(
 			@ApiParam(value = "Request payload") @Valid @RequestBody MAppParameter request,

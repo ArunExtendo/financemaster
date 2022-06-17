@@ -67,7 +67,7 @@ public class MDepartmentController {
 
 	}
 
-	@ApiOperation(value = "Allows  to   fetch Department list to populate on dropdown.", response = Response.class)
+	@ApiOperation(value = "Allows to fetch Department list to populate on dropdown.", response = Response.class)
 	@GetMapping(value = "/getList", produces = "application/json")
 	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
