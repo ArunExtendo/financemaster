@@ -24,5 +24,4 @@ public interface MCurrencyRepository extends JpaRepository<MCurrency, String>, J
 	@Query(value = "select new com.maan.life.dto.Option(c.currCode,c.currName) from MCurrency c" )
 	List<Option> getList();
 
-
 }

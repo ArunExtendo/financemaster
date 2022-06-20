@@ -22,10 +22,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -58,44 +61,56 @@ public class MCurrency implements Serializable {
 	// --- ENTITY PRIMARY KEY
 	@Id
 	@NotEmpty(message = "Curr code required")
+	@Size(max = 12, message = "Curr code must be within 12 character")
 	@Column(name = "CURR_CODE", nullable = false, length = 12)
 	private String currCode;
 
 	// --- ENTITY DATA FIELDS
+	@Size(max = 240, message = "Curr name must be within 240 character")
 	@Column(name = "CURR_NAME", length = 240)
 	private String currName;
 
+	@Size(max = 240, message = "Curr bl name must be within 240 character")
 	@Column(name = "CURR_BL_NAME", length = 240)
 	private String currBlName;
 
+	@Size(max = 30, message = "Curr short name must be within 30 character")
 	@Column(name = "CURR_SHORT_NAME", length = 30)
 	private String currShortName;
 
+	@Size(max = 30, message = "Curr bl short name must be within 30 character")
 	@Column(name = "CURR_BL_SHORT_NAME", length = 30)
 	private String currBlShortName;
 
+	@Size(max = 240, message = "Curr unit name must be within 240 character")
 	@Column(name = "CURR_UNIT_NAME", length = 240)
 	private String currUnitName;
 
+	@Size(max = 30, message = "Curr fmt mask must be within 30 character")
 	@Column(name = "CURR_FMT_MASK", length = 30)
 	private String currFmtMask;
 
 	@Column(name = "CURR_DECIMAL")
 	private BigDecimal currDecimal;
 
+	@Size(max = 1, message = "Curr freez Yn must be within 1 character")
 	@Column(name = "CURR_FREEZ_YN", length = 1)
 	private String currFreezYn;
 
 	@Column(name = "CURR_FREEZ_DT")
 	private LocalDateTime currFreezDt;
 
-	@Column(name = "CURR_CR_UID", length = 12)
+	@CreatedBy
+	@Size(max = 12, message = "Curr cr uid must be within 12 character")
+	@Column(name = "CURR_CR_UID", length = 12, nullable = false, updatable = false)
 	private String currCrUid;
 
 	@CreatedDate
-	@Column(name = "CURR_CR_DT")
+	@Column(name = "CURR_CR_DT", nullable = false, updatable = false)
 	private LocalDateTime currCrDt;
 	
+	@LastModifiedBy
+	@Size(max = 12, message = "Curr upd uid must be within 12 character")
 	@Column(name = "CURR_UPD_UID", length = 12)
 	private String currUpdUid;
 
@@ -103,6 +118,7 @@ public class MCurrency implements Serializable {
 	@Column(name = "CURR_UPD_DT")
 	private LocalDateTime currUpdDt;
 
+	@Size(max = 240, message = "Curr logo must be within 240 character")
 	@Column(name = "CURR_LOGO", length = 240)
 	private String currLogo;
 	

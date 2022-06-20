@@ -1,5 +1,6 @@
 package com.maan.life.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -13,9 +14,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maan.life.bean.MDivision;
 import com.maan.life.bean.MGlTransaction;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MGlTransactionRepository;
 import com.maan.life.service.MGlTransactionService;
+import com.maan.life.util.ValidationUtil;
 
 @Service
 @Transactional
@@ -46,16 +50,38 @@ public class MGlTransactionServiceImpl implements MGlTransactionService {
 	}
 	
 
-	@Override
-	public Page<MGlTransaction> findAll(Pageable paging) {
-		return repository.findAll(paging);
-	}
-	
 //	@Override
-//	public Page<MGlTransaction> findSearch(String search, Pageable paging) {
-//		String sear = "%" + search + "%";
-//		return repository.findAll(sear, paging);
+//	public Page<MDivision> findAllDivisionDetails(ListViewParam request) {
+//
+//		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+//				sorting.getPageSize(request.getPageSize()));
+//		Page<MDivision> list = null;
+//
+//		if (request.getCode() != null && request.getCode().length != 0) {
+//			List<String> o = new ArrayList<String>();
+//			String sear = null;
+//			if (request.getSearch() == null) {
+//				sear = "%%";
+//			} else {
+//				sear = "%" + request.getSearch() + "%";
+//			}
+//			for (String ob : request.getCode()) {
+//				o.add(ob);
+//			}
+//			list = repository.findBySearchAndDivnCompCode(sear, o.get(0), paging);
+//
+//		} else if (!ValidationUtil.isNull(request.getSearch())) {
+//			String sear = "%" + request.getSearch() + "%";
+//			list = repository.findAll(sear, paging);
+//		} else {
+//			list = repository.findAll(paging);
+//		}
+//
+//		return list;
+//
 //	}
+//	
+
 	
 
 }
