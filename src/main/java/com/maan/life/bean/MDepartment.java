@@ -20,8 +20,6 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -109,7 +107,7 @@ public class MDepartment implements Serializable {
 
 	@CreatedBy
 	@Size(max = 12, message = "Dept crUid must be within 12 character")
-	@Column(name = "DEPT_CR_UID", length = 12)
+	@Column(name = "DEPT_CR_UID", updatable = false,length = 12)
 	private String deptCrUid;
 
 	@CreatedDate

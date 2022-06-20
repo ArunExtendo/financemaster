@@ -142,11 +142,11 @@ public class MCompany implements Serializable {
 
 	@CreatedBy
 	@Size(max = 12, message = "Comp crUid must be within 12 character")
-	@Column(name = "COMP_CR_UID", length = 12)
+	@Column(name = "COMP_CR_UID",updatable = false, length = 12)
 	private String compCrUid;
 
 	@CreatedDate
-	@Column(name = "COMP_CR_DT")
+	@Column(name = "COMP_CR_DT",updatable = false)
 	private LocalDateTime compCrDt;
 
 	@LastModifiedBy
