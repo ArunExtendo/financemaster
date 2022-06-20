@@ -15,8 +15,4 @@ public interface MGlTransactionService {
 
 	List<MGlTransaction> getAll();
 
-	Page<MGlTransaction> findAll(Pageable paging);
-
-	//Page<MGlTransaction> findSearch(String search, Pageable paging);
-
 }

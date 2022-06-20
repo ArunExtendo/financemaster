@@ -101,11 +101,11 @@ public class MDivision implements Serializable {
 
 	@CreatedBy
 	@Size(max = 12, message = "Divn cr uid must be within 12 character")
-	@Column(name = "DIVN_CR_UID", length = 12)
+	@Column(name = "DIVN_CR_UID", length = 12, nullable = false, updatable = false)
 	private String divnCrUid ;
 
 	@CreatedDate
-	@Column(name = "DIVN_CR_DT")
+	@Column(name = "DIVN_CR_DT", nullable = false, updatable = false)
 	private LocalDateTime divnCrDt;
 
 	@LastModifiedDate

@@ -124,11 +124,11 @@ public class MAppCodes implements Serializable {
 	private Date acEffToDt;
 
 	@CreatedBy
-	@Column(name = "AC_CR_UID")
+	@Column(name = "AC_CR_UID", nullable = false, updatable = false)
 	private String acCrUid;
 
 	@CreatedDate
-	@Column(name = "AC_CR_DT")
+	@Column(name = "AC_CR_DT", nullable = false, updatable = false)
 	private LocalDateTime acCrDt;
 
 	@LastModifiedBy
