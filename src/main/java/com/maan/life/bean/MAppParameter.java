@@ -97,7 +97,7 @@ public class MAppParameter implements Serializable {
 	
 	@CreatedBy
 	@Size(max = 12, message = "Para CrUid  must be within 12 character")
-	@Column(name = "PARA_CR_UID", nullable = false, length = 12)
+	@Column(name = "PARA_CR_UID", nullable = false, length = 12,updatable = false)
 	private String paraCrUid;
      
 	@CreatedDate
