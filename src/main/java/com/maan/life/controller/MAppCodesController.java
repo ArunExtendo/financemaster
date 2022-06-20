@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.maan.life.dto.LOVRequest;
+import com.maan.life.dto.Option;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,22 +70,22 @@ public class MAppCodesController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch appcode List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch Dropdown List Values for given App Code Type.", response = Response.class)
+	@PostMapping(value = "/getListOfValues", produces = "application/json")
+	public ResponseEntity<?> getListOfValues(@RequestHeader HttpHeaders httpHeader, @RequestBody @Valid LOVRequest request) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
 
-			List<MAppCodes> lst = entityService.getAll();
-			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
+			List<Option> list = entityService.getListOfValues(request);
+			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), list,
 					HttpStatus.OK);
 
 		} catch (Exception e) {
 
 			e.printStackTrace();
-			logger.error("Error in getAll list " + e.getMessage(), e);
-			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+			logger.error("Error in getListOfValues list " + e.getMessage(), e);
+			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 
 		}
 	}
