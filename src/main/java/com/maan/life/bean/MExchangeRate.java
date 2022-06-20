@@ -103,11 +103,11 @@ public class MExchangeRate implements Serializable {
 
 	@CreatedBy
 	@Size(max = 12, message = "Er crUid must be within 12 character")
-	@Column(name = "ER_CR_UID", length = 12)
+	@Column(name = "ER_CR_UID",updatable = false, length = 12)
 	private String erCrUid;
 
 	@CreatedDate
-	@Column(name = "ER_CR_DT")
+	@Column(name = "ER_CR_DT",updatable = false)
 	private LocalDateTime erCrDt;
 
 	@LastModifiedBy
