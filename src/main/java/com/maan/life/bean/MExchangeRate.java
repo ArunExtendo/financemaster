@@ -25,7 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -77,19 +77,19 @@ public class MExchangeRate implements Serializable {
 	private Date erEffToDt;
 
 	@Id
-	@NotEmpty(message = "Er conv fm curr code is required")
+	@NotNull(message = "Er conv fm curr code is required")
 	@Size(max = 12, message = "Er conv fm curr code must be within 12 character")
 	@Column(name = "ER_CONV_FM_CURR_CODE", nullable = false, length = 12)
 	private String erConvFmCurrCode;
 
 	@Id
-	@NotEmpty(message = "Er conv to curr code is required")
+	@NotNull(message = "Er conv to curr code is required")
 	@Size(max = 12, message = "Er conv to curr code must be within 12 character")
 	@Column(name = "ER_CONV_TO_CURR_CODE", nullable = false, length = 12)
 	private String erConvToCurrCode;
 
 	@Id
-	@NotEmpty(message = "Er rate is required")
+	@NotNull(message = "Er rate is required")
 	@Size(max = 12, message = "Er rate for must be within 12 character")
 	@Column(name = "ER_RATE_FOR", nullable = false, length = 12)
 	private String erRateFor;

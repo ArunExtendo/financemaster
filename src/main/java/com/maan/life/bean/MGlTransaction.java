@@ -24,7 +24,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -64,7 +64,7 @@ public class MGlTransaction implements Serializable {
 
 	// --- ENTITY PRIMARY KEY
 	@Id
-	@NotEmpty(message = "Tran code required")
+	@NotNull(message = "Tran code required")
 	@Size(max = 12, message = "Tran code must be within 12 character")
 	@Column(name = "TRAN_CODE", nullable = false, length = 12)
 	private String tranCode;
@@ -79,7 +79,7 @@ public class MGlTransaction implements Serializable {
 	private String tranBlName;
 
 	@Size(max = 12, message = "Tran type must be within 12 character")
-	@NotEmpty(message = "tran type required")
+	@NotNull(message = "tran type required")
 	@Column(name = "TRAN_TYPE", nullable = false, length = 12)
 	private String tranType;
 

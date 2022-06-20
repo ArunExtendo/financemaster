@@ -21,7 +21,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -60,7 +60,7 @@ public class MCurrency implements Serializable {
 
 	// --- ENTITY PRIMARY KEY
 	@Id
-	@NotEmpty(message = "Curr code required")
+	@NotNull(message = "Curr code required")
 	@Size(max = 12, message = "Curr code must be within 12 character")
 	@Column(name = "CURR_CODE", nullable = false, length = 12)
 	private String currCode;

@@ -22,7 +22,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -63,13 +63,13 @@ public class MDivision implements Serializable {
 
 	// --- ENTITY PRIMARY KEY
 	@Id
-	@NotEmpty(message = "divn Code required")
+	@NotNull(message = "divn Code required")
 	@Size(max = 12, message = "Divn code must be within 12 character")
 	@Column(name = "DIVN_CODE", nullable = false, length = 12)
 	private String divnCode;
 
 	@Id
-	@NotEmpty(message = "divn Comp Code required")
+	@NotNull(message = "divn Comp Code required")
 	@Size(max = 12, message = "Divn comp code must be within 12 character")
 	@Column(name = "DIVN_COMP_CODE", nullable = false, length = 12)
 	private String divnCompCode;
