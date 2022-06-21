@@ -60,8 +60,8 @@ public class MAppParameterController {
 	}
 
  	@ApiOperation(value = "Allows to fetch Dropdown List Values for given App Param Code.", response = Response.class)
-	@GetMapping(value = "/getListOfValues", produces = "application/json")
-	public ResponseEntity<?> getListOfValues(@RequestHeader HttpHeaders httpHeader, @RequestParam String code) throws Exception {
+	@GetMapping(value = "/{code}", produces = "application/json")
+	public ResponseEntity<?> getByCode(@RequestHeader HttpHeaders httpHeader, @PathVariable String code) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
