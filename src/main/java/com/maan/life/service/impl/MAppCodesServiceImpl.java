@@ -4,6 +4,7 @@ package com.maan.life.service.impl;
 import java.util.Collections;
 import java.util.List;
 
+import com.maan.life.dto.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,6 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 		List<MAppCodes> lst;
 		try {
 			lst = repository.findAll();
-
 		} catch (Exception ex) {
 			log.error("Error in findAll" +ex);
 			return Collections.emptyList();
@@ -54,20 +54,20 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
 		Page<MAppCodes> list = null;
-
 		if (ValidationUtil.isNull(request.getSearch())) {
-
 			list = repository.findAll(paging);
 
 		} else {
 			String sear = "%" + request.getSearch() + "%";
-
 			list = repository.findAll(sear, paging);
 		}
-		
-
 		return list;
+	}
 
+
+	@Override
+	public List<Option> getListOfValues(String code) {
+		return repository.getListByType(code);
 	}
 
 
