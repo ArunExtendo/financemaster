@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.maan.life.dto.LOVRequest;
 import com.maan.life.dto.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -69,15 +68,9 @@ public class MAppParameterServiceImpl implements MAppParameterService {
 	}
 
 	@Override
-	public List<Option> getListOfValues(LOVRequest request) {
+	public List<Option> getListOfValues(String code) {
 
-		List<Option> list = new ArrayList<Option>();
-		if( ! ValidationUtil.isNull(request.getSubParam()) ){
-			list = repository.getListByParaCodeAndSubCode(request.getSubParam(),request.getParam());
-		}else{
-			list = repository.getListByParaCode(request.getParam());
-		}
-		return list;
+		return repository.getListByParaCode(code);
 	}
 
 }

@@ -19,8 +19,6 @@ public interface MAppCodesRepository
 
 	@Query(value = "select * from M_App_Codes where upper(concat(AC_TYPE,AC_CODE)) like upper(:search)", nativeQuery = true)
 	Page<MAppCodes> findAll(@Param("search") String search, Pageable paging);
-	@Query(value = "select new com.maan.life.dto.Option(c.acType,c.acCode,acDesc) from MAppCodes c where c.acType = :type and c.acCode=:code" )
-	List<Option> getListByCodeAndType(String code, String type);
 
 	@Query(value = "select new com.maan.life.dto.Option(c.acType,c.acCode,acDesc) from MAppCodes c where c.acType = :type " )
 	List<Option> getListByType(String type);

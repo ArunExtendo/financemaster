@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
-import com.maan.life.dto.LOVRequest;
 import com.maan.life.dto.Option;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.maan.life.bean.MAppParameter;
 import com.maan.life.dto.ListViewParam;
@@ -67,12 +60,12 @@ public class MAppParameterController {
 	}
 
  	@ApiOperation(value = "Allows to fetch Dropdown List Values for given App Param Code.", response = Response.class)
-	@PostMapping(value = "/getListOfValues", produces = "application/json")
-	public ResponseEntity<?> getListOfValues(@RequestHeader HttpHeaders httpHeader, @RequestBody @Valid LOVRequest request) throws Exception {
+	@GetMapping(value = "/getListOfValues", produces = "application/json")
+	public ResponseEntity<?> getListOfValues(@RequestHeader HttpHeaders httpHeader, @RequestParam String code) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-			List<Option> list = entityService.getListOfValues(request);
+			List<Option> list = entityService.getListOfValues(code);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), list,
 					HttpStatus.OK);
 		} catch (Exception e) {
