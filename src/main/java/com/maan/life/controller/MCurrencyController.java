@@ -100,54 +100,35 @@ public class MCurrencyController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
-		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-				sorting.getPageSize(request.getPageSize()));
+		try {
+			Map<String, Object> response = entityService.findAll(request);
+			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
+					HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		}
+	}
+
+	@ApiOperation(value = "Allows to fetch a currency Entity with given code(primary key).", response = Response.class)
+	@PostMapping(value = "/get", produces = "application/json")
+	public ResponseEntity<?> getById(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
+			throws Exception {
+
+		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-
-			List<MCurrencyDto> obj = new ArrayList<MCurrencyDto>();
-			Optional<MCurrency> dataObj = null;
-			Page<MCurrencyDto> pagingList = null;
-
-			if (!ValidationUtil.isEmptyStringArray(request.getCode()) && ValidationUtil.isNull(request.getSearch())) {
-
-				dataObj = entityService.findById(request.getCode()[0]);
-				
+			if (!ValidationUtil.isEmptyStringArray(request.getCode())) {
+				Optional<MCurrency> dataObj = entityService.findById(request.getCode()[0]);
 				return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), dataObj,
 						HttpStatus.OK);
+			} else {
+				throw new Exception("Code to fetch Entity is not provided");
 			}
-
-			else {
-
-				if (ValidationUtil.isNull(request.getSearch())
-						&& ValidationUtil.isEmptyStringArray(request.getCode())) {
-
-					pagingList = entityService.findAll(paging);
-
-				}
-
-				if (ValidationUtil.isEmptyStringArray(request.getCode())
-						&& !ValidationUtil.isNull(request.getSearch())) {
-
-					pagingList = entityService.findBySearch(request.getSearch(), paging);
-
-				}
-
-				obj = pagingList.getContent();
-
-				Map<String, Object> response = new HashMap<>();
-				response.put("data", obj);
-				response.put("currentPage", pagingList.getNumber());
-				response.put("totalItems", pagingList.getTotalElements());
-				response.put("totalPages", pagingList.getTotalPages());
-
-				return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
-						HttpStatus.OK);
-
-			}
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 
 			e.printStackTrace();
 			logger.error(e.getMessage(), e);

@@ -14,6 +14,7 @@ package com.maan.life.bean;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maan.life.util.Constants;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedBy;
@@ -98,7 +101,8 @@ public class MCurrency implements Serializable {
 	private String currFreezYn;
 
 	@Column(name = "CURR_FREEZ_DT")
-	private LocalDateTime currFreezDt;
+	@JsonFormat(shape = JsonFormat.Shape.STRING,pattern = Constants.DATE_FORMAT_PATTERN)
+	private Date currFreezDt;
 
 	@CreatedBy
 	@Size(max = 12, message = "Curr cr uid must be within 12 character")
@@ -107,6 +111,7 @@ public class MCurrency implements Serializable {
 
 	@CreatedDate
 	@Column(name = "CURR_CR_DT", nullable = false, updatable = false)
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	private LocalDateTime currCrDt;
 	
 	@LastModifiedBy
@@ -116,6 +121,7 @@ public class MCurrency implements Serializable {
 
 	@LastModifiedDate
 	@Column(name = "CURR_UPD_DT")
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	private LocalDateTime currUpdDt;
 
 	@Size(max = 240, message = "Curr logo must be within 240 character")

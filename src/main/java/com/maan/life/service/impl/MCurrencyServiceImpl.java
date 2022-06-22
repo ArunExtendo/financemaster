@@ -1,11 +1,12 @@
 package com.maan.life.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import javax.validation.Valid;
 
+import com.maan.life.dto.ListViewParam;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class MCurrencyServiceImpl implements MCurrencyService {
 
 	@Autowired
 	private MCurrencyRepository repository;
+
+	@Autowired
+	private Convention sorting;
 	
 	private Logger log = LogManager.getLogger(MCurrencyServiceImpl.class);
 
@@ -53,17 +57,30 @@ public class MCurrencyServiceImpl implements MCurrencyService {
 	}
 
 	@Override
-	public Page<MCurrencyDto> findBySearch(String search, Pageable paging) {
+	public Map<String, Object> findAll(ListViewParam request) {
 
-		String sear = "%" + search + "%";
+		Map<String, Object> response = new HashMap<>();
+		List<MCurrencyDto> responseList = new ArrayList<MCurrencyDto>();
+		Page<MCurrencyDto> pagingList =  null;
+		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+				sorting.getPageSize(request.getPageSize()));
 
-		return repository.findBySearch(sear, paging);
-	}
+		if (ValidationUtil.isNull(request.getSearch())) {
 
-	@Override
-	public Page<MCurrencyDto> findAll(Pageable paging) {
+			pagingList = repository.findByAll(paging);
 
-		return repository.findByAll(paging);
+		}else  {
+			pagingList = repository.findBySearch( "%" + request.getSearch() +"%", paging);
+		}
+		if(pagingList!=null){
+			responseList = pagingList.getContent();
+			response.put("currentPage", pagingList.getNumber());
+			response.put("totalItems", pagingList.getTotalElements());
+			response.put("totalPages", pagingList.getTotalPages());
+		}
+
+		response.put("data", responseList);
+		return response;
 	}
 
 }

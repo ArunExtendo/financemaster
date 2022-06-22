@@ -1,5 +1,8 @@
 package com.maan.life.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maan.life.util.Constants;
+
 import java.time.LocalDateTime;
 
 public interface MCurrencyDto {
@@ -16,5 +19,6 @@ public interface MCurrencyDto {
 
 	String getCurrFreezYn();
 
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	LocalDateTime getCurrFreezDt();
 }

@@ -1,10 +1,12 @@
 package com.maan.life.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.maan.life.dto.ListViewParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,9 +23,8 @@ public interface MCurrencyService {
 
 	Optional<MCurrency> findById(String string);
 
-	Page<MCurrencyDto> findAll(Pageable paging);
+	Map<String, Object> findAll(ListViewParam paging);
 
-	Page<MCurrencyDto> findBySearch(String search, Pageable paging);
 
 	
 
