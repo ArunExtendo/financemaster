@@ -1,22 +1,35 @@
 package com.maan.life.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.maan.life.bean.MCurrency;
-import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.MCurrencyDto;
 import com.maan.life.dto.Option;
 
+
 public interface MCurrencyService {
-	
+
+	void saveorupdate(@Valid MCurrency request);
+
 	List<Option> getList();
 
-	void saveorupdate(MCurrency request);
+	Optional<MCurrency> findById(String string);
 
-	Page<MCurrency> findAllCurrencyDetails(ListViewParam request);
+	Page<MCurrencyDto> findAll(Pageable paging);
 
-	List<MCurrency> getAll();
+	Page<MCurrencyDto> findBySearch(String search, Pageable paging);
+
+	
+
+	
+	
+	
 	
 
 }

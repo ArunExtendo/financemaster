@@ -22,6 +22,4 @@ public interface MAppParameterRepository
 
 	@Query(value = "select new com.maan.life.dto.Option(p.paraCode,p.paraSubCode,p.paraName) from MAppParameter p where p.paraCode = :param " )
 	List<Option> getListByParaCode(String param);
-
-//
 }

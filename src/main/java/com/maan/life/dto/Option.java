@@ -1,6 +1,6 @@
 package com.maan.life.dto;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,4 +22,5 @@ public class Option {
         this.subCode = subCode;
         this.value = value;
     }
+    
 }

@@ -41,7 +41,7 @@ import lombok.ToString;
 /**
  * Domain class for entity "MCurrency"
  *
- * @author Raj
+ * @author Arunkumar
  *
  */
 @Getter
