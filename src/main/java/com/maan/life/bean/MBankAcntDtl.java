@@ -97,11 +97,11 @@ private static final long serialVersionUID = 1L;
     private String   badCurrCode ;
 
     @CreatedBy
-    @Column(name="BAD_CR_UID", nullable=false)
+    @Column(name="BAD_CR_UID", nullable=false,updatable = false)
     private String  badCrUid ;
 
     @CreatedDate
-    @Column(name="BAD_CR_DT", nullable=false)
+    @Column(name="BAD_CR_DT", nullable=false,updatable = false)
     private LocalDateTime badCrDt ;
 
     @LastModifiedBy

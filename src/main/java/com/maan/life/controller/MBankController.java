@@ -90,7 +90,7 @@ public class MBankController {
 	}
 
 	@ApiOperation(value = "API to Create or Update Bank Account Entity", response = Response.class)
-	@PostMapping(value = "account/createOrUpdate", produces = "application/json")
+	@PostMapping(value = "/account/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdateAccount(
 			@ApiParam(value = "Bank Account request payload") @Valid @RequestBody MBankAcntDtl request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -111,17 +111,16 @@ public class MBankController {
 
 
 	@ApiOperation(value = "Allows to fetch Bank Account entities to populate on Grid.", response = Response.class)
-	@PostMapping(value = "account/getAll", produces = "application/json")
+	@PostMapping(value = "/account/getAll", produces = "application/json")
 	public ResponseEntity<?> getBankAccountList(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-			List<MBankAcntDtl> obj = new ArrayList<MBankAcntDtl>();
-			Page<MBankAcntDtl> list = null;
-			list = bankService.getBankAccountList(request);
-			obj = list.getContent();
+
+			Page<MBankAcntDtl> list = bankService.getBankAccountList(request);
+			List<MBankAcntDtl> obj = list.getContent();
 			Map<String, Object> response = new HashMap<>();
 			response.put("data", obj);
 			response.put("currentPage", list.getNumber());
