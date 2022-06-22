@@ -96,7 +96,7 @@ public class MAppCodes implements Serializable {
 
 	@Column(name = "AC_LONG_DESC")
 	@Size(max = 4000, message = "Ac long desc must be within 4000 character")
-	private String acLongDesc;
+	private String  acLongDesc;
 
 	@Column(name = "AC_LONG_DESC_BL")
 	@Size(max = 4000, message = " Ac long desc bl must be within 4000 character")
