@@ -1,8 +1,10 @@
 package com.maan.life.repository;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
+import com.maan.life.dto.Option;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,11 +39,6 @@ public interface MGIAcntYearRepository
 	Optional<MGlAcntYear> findByAyCompCodeAndAyAcntYear(String ayCompCode, BigDecimal bigDecimal);
 
 
-	
-
-
-	
-
-
-
+	@Query(value = "select new com.maan.life.dto.Option(c.ayCompCode,cast(c.ayAcntYear as string) ,cast(c.ayAcntYear as string) ) from MGlAcntYear c " )
+	List<Option> getList();
 }
