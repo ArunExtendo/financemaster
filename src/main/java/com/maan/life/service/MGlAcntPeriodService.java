@@ -16,7 +16,7 @@ public interface MGlAcntPeriodService {
 	Map<String, Object> findAll(ListViewParam request);
 
 
-	Optional<MGlAcntPeriod> findByApCompCodeAndApAcntYearAndApCalYearAndApCalMonth(String string, String string2,
+	Optional<MGlAcntPeriod> findById(String string, String string2,
 			String string3, String string4);
 
 }

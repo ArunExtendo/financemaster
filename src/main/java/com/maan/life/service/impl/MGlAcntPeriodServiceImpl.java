@@ -74,7 +74,7 @@ public class MGlAcntPeriodServiceImpl implements MGlAcntPeriodService {
 	}
 
 	@Override
-	public Optional<MGlAcntPeriod> findByApCompCodeAndApAcntYearAndApCalYearAndApCalMonth(String apCompCode, String apAcntYear,
+	public Optional<MGlAcntPeriod> findById(String apCompCode, String apAcntYear,
 			String apCalYear, String apCalMonth) {
 		BigDecimal apAcntYearbd = new BigDecimal(apAcntYear);
 		BigDecimal apCalYearbd = new BigDecimal(apCalYear);

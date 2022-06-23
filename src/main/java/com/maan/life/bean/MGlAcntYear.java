@@ -25,6 +25,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maan.life.util.Constants;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -74,10 +77,12 @@ public class MGlAcntYear implements Serializable {
 	@Column(name = "AY_PREV_CURR_NEXT", length = 1)
 	private String ayPrevCurrNext;
 
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "AY_FM_DT")
 	private Date ayFmDt;
 
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "AY_TO_DT")
 	private Date ayToDt;
@@ -100,6 +105,7 @@ public class MGlAcntYear implements Serializable {
 	private String ayCrUid;
 
 	@CreatedDate
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Column(name = "AY_CR_DT", nullable = false, updatable = false)
 	private LocalDateTime ayCrDt;
 
@@ -109,12 +115,13 @@ public class MGlAcntYear implements Serializable {
 	private String ayUpdUid;
 
 	@LastModifiedDate
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Column(name = "AY_UPD_DT")
 	private LocalDateTime ayUpdDt;
 
 	@Transient
-	private Boolean create =false;
-	
+	private Boolean create = false;
+
 	// --- ENTITY LINKS ( RELATIONSHIP )
 
 }

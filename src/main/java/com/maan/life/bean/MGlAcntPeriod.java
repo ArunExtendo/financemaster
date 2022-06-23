@@ -26,6 +26,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maan.life.util.Constants;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -77,10 +80,12 @@ public class MGlAcntPeriod implements Serializable {
 	private BigDecimal apCalMonth;
 
 	// --- ENTITY DATA FIELDS
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "AP_FM_DT")
 	private Date apFmDt;
 
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Temporal(TemporalType.DATE)
 	@Column(name = "AP_TO_DT")
 	private Date apToDt;
@@ -94,6 +99,7 @@ public class MGlAcntPeriod implements Serializable {
 	private String apCrUid;
 
 	@CreatedDate
+	 @JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Column(name = "AP_CR_DT", nullable = false, updatable = false)
 	private LocalDateTime apCrDt;
 
@@ -103,6 +109,7 @@ public class MGlAcntPeriod implements Serializable {
 	private String apUpdUid;
 
 	@LastModifiedDate
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Column(name = "AP_UPD_DT")
 	private LocalDateTime apUpdDt;
 

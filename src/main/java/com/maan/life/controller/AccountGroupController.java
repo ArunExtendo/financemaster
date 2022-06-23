@@ -54,6 +54,7 @@ public class AccountGroupController {
 
 	private static final Logger logger = Logger.getLogger(AccountGroupController.class);
 
+	@ApiOperation(value = "API to Create or Update transction Entity.", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(
 			@ApiParam(value = "Request payload") @Valid @RequestBody MGlTransaction request,
@@ -91,8 +92,8 @@ public class AccountGroupController {
 
 		}
 	}
-
-	@PostMapping(value = "/year", produces = "application/json")
+	@ApiOperation(value = "API to Create or Update account year Entity.", response = Response.class)
+	@PostMapping(value = "/year/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdateYear(
 			@ApiParam(value = "Request payload") @Valid @RequestBody MGlAcntYear request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -155,7 +156,8 @@ public class AccountGroupController {
 		}
 	}
 
-	@PostMapping(value = "/period", produces = "application/json")
+	@ApiOperation(value = "API to Create or Update account period Entity.", response = Response.class)
+	@PostMapping(value = "/period/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdatePeriod(
 			@ApiParam(value = "Request payload") @Valid @RequestBody MGlAcntPeriod request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -203,7 +205,7 @@ public class AccountGroupController {
 		try {
 			if (!ValidationUtil.isEmptyStringArray(request.getCode())) {
 				Optional<MGlAcntPeriod> mGlAcntYearOptionl = mGlAcntPeriodService
-						.findByApCompCodeAndApAcntYearAndApCalYearAndApCalMonth(request.getCode()[0],
+						.findById(request.getCode()[0],
 								request.getCode()[1], request.getCode()[2], request.getCode()[3]);
 				return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"),
 						mGlAcntYearOptionl, HttpStatus.OK);
