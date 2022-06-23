@@ -1,6 +1,5 @@
 package com.maan.life.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,26 +8,21 @@ import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MDivision;
 import com.maan.life.bean.MGlTransaction;
-import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MGlTransactionRepository;
-import com.maan.life.service.MGlTransactionService;
-import com.maan.life.util.ValidationUtil;
+import com.maan.life.service.AccountGroupService;
 
 @Service
 @Transactional
-public class MGlTransactionServiceImpl implements MGlTransactionService {
+public class AccountGroupServiceImpl implements AccountGroupService {
 	
 	@Autowired
 	private MGlTransactionRepository repository;
 
-	private Logger log = LogManager.getLogger(MGlTransactionServiceImpl.class);
+	private Logger log = LogManager.getLogger(AccountGroupServiceImpl.class);
 
 	@Override
 	public void saveorupdate(@Valid MGlTransaction request) {
