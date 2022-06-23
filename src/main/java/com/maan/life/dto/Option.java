@@ -1,5 +1,4 @@
 package com.maan.life.dto;
-
 import lombok.Getter;
 import lombok.Setter;
 

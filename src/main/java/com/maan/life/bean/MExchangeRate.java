@@ -26,6 +26,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -35,6 +36,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.validation.annotation.Validated;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -49,6 +51,7 @@ import lombok.ToString;
  * @author Thamizhazhagan Velayudham
  *
  */
+@Validated
 @Getter
 @Setter
 @NoArgsConstructor
@@ -89,8 +92,8 @@ public class MExchangeRate implements Serializable {
 	private String erConvToCurrCode;
 
 	@Id
-	@NotEmpty(message = "Er rate is required")
-	@Size(max = 12, message = "Er rate for must be within 12 character")
+	@NotNull(message = "Er rate is required")
+    @Size(max = 12, message = "Er rate for must be within 12 character")
 	@Column(name = "ER_RATE_FOR", nullable = false, length = 12)
 	private String erRateFor;
 
