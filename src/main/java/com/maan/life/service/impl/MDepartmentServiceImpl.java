@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.maan.life.dto.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,15 +47,9 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 	}
 
 	@Override
-	public List<MDepartment> getAll() {
-		List<MDepartment> list = null;
-		try {
-			list = repository.findAll();
-		} catch (Exception ex) {
-			log.error("Error in getAll" + ex);
-			return Collections.emptyList();
-		}
-		return list;
+	public List<Option> getList(String[] code) {
+
+		return repository.getList(code[0],code[1]);
 	}
 
 	public Optional<MDepartment> findByDeptCode(String deptCode) {

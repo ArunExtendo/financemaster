@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
+import javax.validation.Validation;
 
+import com.maan.life.dto.Option;
+import com.maan.life.util.ValidationUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,14 +70,16 @@ public class MDepartmentController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch Department list to populate on dropdown.", response = Response.class)
-	@GetMapping(value = "/getList", produces = "application/json")
-	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch Department list for given 'code' : ['compCode' , 'divCode'] .", response = Response.class)
+	@PostMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader,@RequestBody ListViewParam request) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-
-			List<MDepartment> lst = entityService.getAll();
+			if(ValidationUtil.isEmptyStringArray(request.getCode()) || request.getCode().length < 2){
+				throw new Exception("Division and Company Code is required");
+			}
+			List<Option> lst = entityService.getList(request.getCode());
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 

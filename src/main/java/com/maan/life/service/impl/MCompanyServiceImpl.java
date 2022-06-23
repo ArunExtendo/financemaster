@@ -1,9 +1,12 @@
 
 package com.maan.life.service.impl;
 
-import java.util.Collections;
-import java.util.List;
-
+import com.maan.life.bean.MCompany;
+import com.maan.life.dto.ListViewParam;
+import com.maan.life.repository.MCompanyRepository;
+import com.maan.life.service.MCompanyService;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +14,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import com.maan.life.dto.Option;
 
-import com.maan.life.bean.MCompany;
-import com.maan.life.dto.ListViewParam;
-import com.maan.life.repository.MCompanyRepository;
-import com.maan.life.service.MCompanyService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,16 +30,9 @@ public class MCompanyServiceImpl implements MCompanyService {
 	private Logger log = LogManager.getLogger(MCompanyServiceImpl.class);
 
 	@Override
-	public List<MCompany> getList() {
-		List<MCompany> lst;
-		try {
-			lst = repository.findAll();
+	public List<Option> getList() {
 
-		} catch (Exception ex) {
-			log.error("Error in findAll" + ex);
-			return Collections.emptyList();
-		}
-		return lst;
+		return repository.getList();
 	}
 
 	@Override

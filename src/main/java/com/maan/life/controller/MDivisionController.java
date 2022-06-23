@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import com.maan.life.dto.Option;
+import com.maan.life.util.ValidationUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -69,15 +71,17 @@ public class MDivisionController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch Division List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch Division List for given 'code' : ['compCode'] ", response = Response.class)
+	@PostMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader,@RequestBody ListViewParam request) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-
-			List<MDivision> lst = entityService.getAll();
-			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
+			if(ValidationUtil.isEmptyStringArray(request.getCode()) ){
+				throw new Exception("Company Code is required");
+			}
+			List<Option> response = entityService.getList(request.getCode());
+			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 
 		} catch (Exception e) {

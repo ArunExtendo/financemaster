@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.maan.life.dto.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +32,8 @@ public class MDivisionServiceImpl implements MDivisionService {
 	private Logger log = LogManager.getLogger(MDivisionServiceImpl.class);
 
 	@Override
-	public List<MDivision> getAll() {
-		List<MDivision> lst;
-
-		try {
-			lst = repository.findAll();
-
-		} catch (Exception ex) {
-			log.error("Error in findAll" +ex);
-			return Collections.emptyList();
-		}
-		return lst;
+	public List<Option> getList(String[] code) {
+		return repository.getList(code[0]);
 	}
 
 	@Override
