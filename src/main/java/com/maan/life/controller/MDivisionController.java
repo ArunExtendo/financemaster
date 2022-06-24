@@ -1,7 +1,9 @@
 package com.maan.life.controller;
 
+
 import com.maan.life.bean.MDivision;
 import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.Option;
 import com.maan.life.response.Response;
 import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
@@ -59,15 +61,17 @@ public class MDivisionController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch Division List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch Division List for given 'code' : ['compCode'] ", response = Response.class)
+	@GetMapping(value = "/getList/{compCode}", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader,@PathVariable String compCode) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-
-			List<MDivision> lst = entityService.getAll();
-			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
+			if(ValidationUtil.isNull(compCode) ){
+				throw new Exception("Company Code is required");
+			}
+			List<Option> response = entityService.getList(compCode);
+			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 
 		} catch (Exception e) {

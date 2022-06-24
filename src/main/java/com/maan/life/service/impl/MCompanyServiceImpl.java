@@ -4,6 +4,7 @@ package com.maan.life.service.impl;
 import com.maan.life.bean.MCompany;
 import com.maan.life.dto.ListViewParam;
 import com.maan.life.dto.MCompanyDto;
+import com.maan.life.dto.Option;
 import com.maan.life.repository.MCompanyRepository;
 import com.maan.life.service.MCompanyService;
 import com.maan.life.util.Convention;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+
 @Service
 @Transactional
 public class MCompanyServiceImpl implements MCompanyService {
@@ -29,16 +31,9 @@ public class MCompanyServiceImpl implements MCompanyService {
 	private Logger log = LogManager.getLogger(MCompanyServiceImpl.class);
 
 	@Override
-	public List<MCompany> getList() {
-		List<MCompany> lst;
-		try {
-			lst = repository.findAll();
+	public List<Option> getList() {
 
-		} catch (Exception ex) {
-			log.error("Error in findAll" + ex);
-			return Collections.emptyList();
-		}
-		return lst;
+		return repository.getList();
 	}
 
 	@Override

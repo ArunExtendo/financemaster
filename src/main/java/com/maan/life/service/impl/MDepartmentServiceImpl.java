@@ -5,13 +5,14 @@
 */
 package com.maan.life.service.impl;
 
-import java.util.*;
-
+import com.maan.life.bean.MDepartment;
 import com.maan.life.bean.MDepartmentId;
-import com.maan.life.bean.MDivision;
-import com.maan.life.bean.MDivisionId;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.dto.MDepartmentDto;
-import com.maan.life.dto.MDivisionDto;
+import com.maan.life.dto.Option;
+import com.maan.life.repository.MDepartmentRepository;
+import com.maan.life.service.MDepartmentService;
+import com.maan.life.util.Convention;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MDepartment;
-import com.maan.life.dto.ListViewParam;
-import com.maan.life.repository.MDepartmentRepository;
-import com.maan.life.service.MDepartmentService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
+import java.util.*;
 
 /**
  * <h2>MDepartmentServiceimpl</h2>
@@ -48,15 +44,9 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 	}
 
 	@Override
-	public List<MDepartment> getAll() {
-		List<MDepartment> list = null;
-		try {
-			list = repository.findAll();
-		} catch (Exception ex) {
-			log.error("Error in getAll" + ex);
-			return Collections.emptyList();
-		}
-		return list;
+	public List<Option> getList(String compCode,String divnCode) {
+
+		return repository.getList(compCode,divnCode);
 	}
 
 	public Optional<MDepartment> findByDeptCode(String deptCode) {

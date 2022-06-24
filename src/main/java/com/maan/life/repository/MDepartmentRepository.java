@@ -11,8 +11,11 @@
 
 package com.maan.life.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+
+import com.maan.life.dto.Option;
 import com.maan.life.dto.MDepartmentDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,5 +49,9 @@ public interface MDepartmentRepository
 			" like upper(:search) and deptCompCode = :deptCompCode " +
 			"and deptDivnCode =:deptDivnCode ")
 	Page<MDepartmentDto> findByDeptCompCodeAndDeptDivnCode(@Param("search") String search,@Param("deptCompCode") String deptCompCode, @Param("deptDivnCode") String deptDivnCode, Pageable paging);
+
+
+	@Query(value = "select new com.maan.life.dto.Option(c.deptCode,c.deptDivnCode,c.deptCompCode,c.deptName) from MDepartment c where c.deptDivnCode =:divnCode and c.deptCompCode = :compCode" )
+	List<Option> getList(String compCode,String divnCode);
 
 }

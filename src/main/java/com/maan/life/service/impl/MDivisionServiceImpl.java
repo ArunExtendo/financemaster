@@ -1,9 +1,11 @@
 package com.maan.life.service.impl;
 
+
 import com.maan.life.bean.MDivision;
 import com.maan.life.bean.MDivisionId;
 import com.maan.life.dto.ListViewParam;
 import com.maan.life.dto.MDivisionDto;
+import com.maan.life.dto.Option;
 import com.maan.life.repository.MDivisionRepository;
 import com.maan.life.service.MDivisionService;
 import com.maan.life.util.Convention;
@@ -29,17 +31,8 @@ public class MDivisionServiceImpl implements MDivisionService {
 	private Logger log = LogManager.getLogger(MDivisionServiceImpl.class);
 
 	@Override
-	public List<MDivision> getAll() {
-		List<MDivision> lst;
-
-		try {
-			lst = repository.findAll();
-
-		} catch (Exception ex) {
-			log.error("Error in findAll" +ex);
-			return Collections.emptyList();
-		}
-		return lst;
+	public List<Option> getList(String code) {
+		return repository.getList(code);
 	}
 
 	@Override

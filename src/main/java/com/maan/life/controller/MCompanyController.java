@@ -1,7 +1,9 @@
 package com.maan.life.controller;
 
+
 import com.maan.life.bean.MCompany;
 import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.Option;
 import com.maan.life.response.Response;
 import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
@@ -64,8 +66,8 @@ public class MCompanyController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
 
-			List<MCompany> lst = entityService.getList();
-			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
+			List<Option> response = entityService.getList();
+			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 
 		} catch (Exception e) {

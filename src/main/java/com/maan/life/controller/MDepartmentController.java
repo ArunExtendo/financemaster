@@ -2,6 +2,7 @@ package com.maan.life.controller;
 
 import com.maan.life.bean.MDepartment;
 import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.Option;
 import com.maan.life.response.Response;
 import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
@@ -57,14 +58,16 @@ public class MDepartmentController {
 
 	}
 
-	@ApiOperation(value = "Allows to fetch Department list to populate on dropdown.", response = Response.class)
-	@GetMapping(value = "/getList", produces = "application/json")
-	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
+	@ApiOperation(value = "Allows to fetch Department list for given 'code' : ['compCode' , 'divCode'] .", response = Response.class)
+	@GetMapping(value = "/getList/{compCode}/{divnCode}", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader,@PathVariable String compCode ,@PathVariable String divnCode ) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-
-			List<MDepartment> lst = entityService.getAll();
+			if(ValidationUtil.isNull(compCode) || ValidationUtil.isNull(divnCode) ){
+				throw new Exception("Division and Company Code is required");
+			}
+			List<Option> lst = entityService.getList(compCode,divnCode);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.maan.life.dto.Option;
 import org.springframework.data.domain.Page;
 
 import com.maan.life.bean.MDivision;
@@ -11,7 +12,7 @@ import com.maan.life.dto.ListViewParam;
 
 public interface MDivisionService {
 
-	List<MDivision> getAll();
+	List<Option> getList(String code);
 
 	void saveorupdate(MDivision request);
 

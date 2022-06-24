@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.maan.life.dto.Option;
 import org.springframework.data.domain.Page;
 
 import com.maan.life.bean.MDepartment;
@@ -21,7 +22,7 @@ public interface MDepartmentService {
 
 	void saveorupdate(MDepartment d);
 
-	List<MDepartment> getAll();
+	List<Option> getList(String compCode,String divnCode);
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 

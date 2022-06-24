@@ -1,5 +1,7 @@
 package com.maan.life.repository;
 
+
+import com.maan.life.dto.Option;
 import com.maan.life.dto.MDivisionDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Repository;
 
 import com.maan.life.bean.MDivision;
 import com.maan.life.bean.MDivisionId;
+
+import java.util.List;
 
 @Repository
 public interface MDivisionRepository
@@ -61,5 +65,9 @@ public interface MDivisionRepository
 			" like upper(:search) AND d.divnCompCode = :code" )
 	Page<MDivisionDto> findBySearchAndDivnCompCode(@Param("search") String search, @Param("code") String code, Pageable paging);
 
+
+
+	@Query(value = "select new com.maan.life.dto.Option(c.divnCode,c.divnCompCode,c.divnName) from MDivision c where c.divnCompCode = :compCode" )
+	List<Option> getList(String compCode);
 
 }

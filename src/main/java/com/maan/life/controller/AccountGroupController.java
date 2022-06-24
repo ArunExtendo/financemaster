@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.maan.life.dto.Option;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -120,6 +121,26 @@ public class AccountGroupController {
 
 		try {
 			Map<String, Object> response = mGIAcntYearService.findAll(request);
+			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
+					HttpStatus.OK);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		}
+	}
+
+	@ApiOperation(value = "Allows to fetch MGl AcntYear List to populate on dropdown.", response = Response.class)
+	@GetMapping(value = "/year/getList", produces = "application/json")
+	public ResponseEntity<?> getList( @RequestHeader HttpHeaders httpHeader)
+			throws Exception {
+
+		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
+
+		try {
+			List<Option> response = mGIAcntYearService.getList();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 

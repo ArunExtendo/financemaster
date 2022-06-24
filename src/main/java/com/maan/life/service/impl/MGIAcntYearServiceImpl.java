@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import com.maan.life.dto.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +79,12 @@ public class MGIAcntYearServiceImpl implements MGIAcntYearService {
 	public Optional<MGlAcntYear> findByAyCompCodeAndAyAcntYear(String ayCompCode, String ayAcntYear) {
 		BigDecimal bigDecimal = new BigDecimal(ayAcntYear);
 		return mGIAcntYearRepository.findByAyCompCodeAndAyAcntYear(ayCompCode,bigDecimal);
+	}
+
+
+	@Override
+	public List<Option> getList() {
+		return mGIAcntYearRepository.getList();
 	}
 
 }
