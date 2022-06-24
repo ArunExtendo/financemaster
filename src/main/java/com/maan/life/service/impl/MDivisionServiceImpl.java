@@ -1,9 +1,12 @@
 package com.maan.life.service.impl;
 
-import java.util.*;
-
-import com.maan.life.dto.MCurrencyDto;
+import com.maan.life.bean.MDivision;
+import com.maan.life.bean.MDivisionId;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.dto.MDivisionDto;
+import com.maan.life.repository.MDivisionRepository;
+import com.maan.life.service.MDivisionService;
+import com.maan.life.util.Convention;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MDivision;
-import com.maan.life.dto.ListViewParam;
-import com.maan.life.repository.MDivisionRepository;
-import com.maan.life.service.MDivisionService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
+import java.util.*;
 
 @Service
 @Transactional
@@ -60,7 +58,7 @@ public class MDivisionServiceImpl implements MDivisionService {
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
 		try{
-			if (request.getCode() != null && request.getCode().length != 0) {
+			if (request.getCode() != null && !(request.getCode().length < 1)) {
 				List<String> o = new ArrayList<String>();
 				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
 				pagingList = repository.findBySearchAndDivnCompCode("%" + sear + "%", request.getCode()[0], paging);
@@ -82,8 +80,12 @@ public class MDivisionServiceImpl implements MDivisionService {
 		}
 		return response;
 	}
-	
-	
+
+	@Override
+	public Optional<MDivision> findById(String comp,String divn) {
+		MDivisionId id = new MDivisionId(divn,comp);
+		return repository.findById(id);
+	}
 
 
 }

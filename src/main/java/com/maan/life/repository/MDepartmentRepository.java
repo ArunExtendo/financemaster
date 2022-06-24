@@ -35,16 +35,16 @@ import com.maan.life.bean.MDepartmentId;
 public interface MDepartmentRepository
 		extends JpaRepository<MDepartment, MDepartmentId>, JpaSpecificationExecutor<MDepartment> {
 
-	@Query(value = "select DEPT_CODE as deptCode, DEPT_NAME as deptName" +
-			" from M_DEPARTMENT where upper(DEPT_CODE || DEPT_NAME) like upper(:search)", nativeQuery = true)
+	@Query(value = "select   d.deptCode as deptCode,   d.deptName as deptName" +
+			" from MDepartment d where upper(deptCode || deptName) like upper(:search)")
 	Page<MDepartmentDto> findAll(String search, Pageable paging);
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 
-	@Query(value = "select DEPT_CODE as deptCode, DEPT_NAME as deptName " +
-			" from M_DEPARTMENT where upper(  DEPT_CODE || DEPT_NAME ) " +
-			" like upper(:search) and DEPT_COMP_CODE = :deptCompCode " +
-			"and DEPT_DIVN_CODE =:deptDivnCode ", nativeQuery = true)
+	@Query(value = "select  d.deptCode as deptCode,  d.deptName as deptName" +
+			" from MDepartment  d where upper(  deptCode || deptName ) " +
+			" like upper(:search) and deptCompCode = :deptCompCode " +
+			"and deptDivnCode =:deptDivnCode ")
 	Page<MDepartmentDto> findByDeptCompCodeAndDeptDivnCode(@Param("search") String search,@Param("deptCompCode") String deptCompCode, @Param("deptDivnCode") String deptDivnCode, Pageable paging);
 
 }

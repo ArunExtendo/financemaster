@@ -2,6 +2,7 @@ package com.maan.life.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 
@@ -15,6 +16,6 @@ public interface MDivisionService {
 	void saveorupdate(MDivision request);
 
 	Map<String, Object> findAllDivisionDetails(ListViewParam request);
-	
 
+    Optional<MDivision> findById(String comp,String divn);
 }

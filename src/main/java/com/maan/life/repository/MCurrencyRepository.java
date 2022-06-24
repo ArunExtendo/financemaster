@@ -16,15 +16,17 @@ import com.maan.life.dto.Option;
 @Repository
 public interface MCurrencyRepository extends JpaRepository<MCurrency, String>, JpaSpecificationExecutor<MCurrency> {
 
-	@Query(value = "select curr_code as currCode, curr_name as currName, curr_bl_name as currBlName, " +
-			"curr_short_name as currShortName, curr_bl_short_name as currBlShortName, curr_freez_yn as currFreezYn," +
-			" curr_freez_dt as currFreezDt from M_CURRENCY " +
-			"where upper(concat(concat(concat(concat(concat(concat(curr_code,curr_name),curr_bl_name),curr_short_name)," +
-			"curr_bl_short_name),curr_freez_yn),curr_freez_dt)) like Upper(:sear)", nativeQuery = true)
+	@Query(value = "select c.currCode as currCode, c.currName as currName, c.currBlName as currBlName, " +
+			"c.currShortName as currShortName, c.currBlShortName as currBlShortName, c.currFreezYn as currFreezYn," +
+			" c.currFreezDt as currFreezDt  from MCurrency c " +
+			"where upper(concat(concat(concat(concat(concat(concat(c.currCode,c.currName),c.currBlName),c.currShortName)," +
+			"c.currBlShortName),c.currFreezYn),c.currFreezDt)) like Upper(:sear)")
 	Page<MCurrencyDto> findBySearch(String sear, Pageable paging);
 
 
-	@Query(value = "select curr_code as currCode, curr_name as currName, curr_bl_name as currBlName, curr_short_name as currShortName, curr_bl_short_name as currBlShortName, curr_freez_yn as currFreezYn, curr_freez_dt as currFreezDt from M_CURRENCY", nativeQuery = true)
+	@Query(value = "select c.currCode as currCode, c.currName as currName, c.currBlName as currBlName, " +
+			"c.currShortName as currShortName, c.currBlShortName as currBlShortName, c.currFreezYn as currFreezYn," +
+			" c.currFreezDt as currFreezDt from MCurrency c" )
 	Page<MCurrencyDto> findByAll(Pageable paging);
 	
 	

@@ -1,10 +1,12 @@
 
 package com.maan.life.service.impl;
 
-import java.util.*;
-
+import com.maan.life.bean.MCompany;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.dto.MCompanyDto;
-import com.maan.life.dto.MCurrencyDto;
+import com.maan.life.repository.MCompanyRepository;
+import com.maan.life.service.MCompanyService;
+import com.maan.life.util.Convention;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MCompany;
-import com.maan.life.dto.ListViewParam;
-import com.maan.life.repository.MCompanyRepository;
-import com.maan.life.service.MCompanyService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
+import java.util.*;
 
 @Service
 @Transactional
@@ -76,5 +73,11 @@ public class MCompanyServiceImpl implements MCompanyService {
 		}
 
 		return response;
+	}
+
+
+	@Override
+	public Optional<MCompany> findById(String code) {
+		return repository.findById(code);
 	}
 }

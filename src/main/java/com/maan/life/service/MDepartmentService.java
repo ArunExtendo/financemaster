@@ -27,4 +27,5 @@ public interface MDepartmentService {
 
 	Map<String, Object> findAllDepartmentDetails(ListViewParam request);
 
+    Optional<MDepartment> findById(String comp, String divn, String dept);
 }

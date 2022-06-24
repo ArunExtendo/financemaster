@@ -7,6 +7,9 @@ package com.maan.life.service.impl;
 
 import java.util.*;
 
+import com.maan.life.bean.MDepartmentId;
+import com.maan.life.bean.MDivision;
+import com.maan.life.bean.MDivisionId;
 import com.maan.life.dto.MDepartmentDto;
 import com.maan.life.dto.MDivisionDto;
 import org.apache.logging.log4j.LogManager;
@@ -73,7 +76,7 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 					sorting.getPageSize(request.getPageSize()));
 
-			if (request.getCode() != null && request.getCode().length != 0) {
+			if (request.getCode() != null && ! (request.getCode().length <2 )) {
 				List<String> o = new ArrayList<String>();
 				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
 				for (String ob : request.getCode()) {
@@ -98,5 +101,12 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 			throw e;
 		}
 		return response;
+	}
+
+
+	@Override
+	public Optional<MDepartment> findById(String comp, String divn,String dept) {
+		MDepartmentId id = new MDepartmentId(dept,divn,comp);
+		return repository.findById(id);
 	}
 }
