@@ -6,6 +6,7 @@
 package com.maan.life.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.maan.life.dto.Option;
@@ -21,10 +22,11 @@ public interface MDepartmentService {
 
 	void saveorupdate(MDepartment d);
 
-	List<Option> getList(String[] code);
+	List<Option> getList(String compCode,String divnCode);
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 
-	Page<MDepartment> findAllDepartmentDetails(ListViewParam request);
+	Map<String, Object> findAllDepartmentDetails(ListViewParam request);
 
+    Optional<MDepartment> findById(String comp, String divn, String dept);
 }

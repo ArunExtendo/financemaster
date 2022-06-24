@@ -3,8 +3,8 @@ package com.maan.life.service.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import com.maan.life.dto.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.maan.life.bean.MAppCodes;
 import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.Option;
 import com.maan.life.repository.MAppCodesRepository;
 import com.maan.life.service.MAppCodesService;
 import com.maan.life.util.Convention;
@@ -70,5 +71,10 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 		return repository.getListByType(code);
 	}
 
+	@Override
+	public Optional<MAppCodes> findById(ListViewParam request){
+		return repository.findByAcTypeAndAcCode(request.getCode()[0],request.getCode()[1]);
+		
+	}
 
 }

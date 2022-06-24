@@ -1,41 +1,29 @@
 package com.maan.life.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.Valid;
-import javax.validation.Validation;
-
-import com.maan.life.dto.Option;
-import com.maan.life.util.ValidationUtil;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.maan.life.bean.MDepartment;
 import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.Option;
 import com.maan.life.response.Response;
 import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
 import com.maan.life.service.MDepartmentService;
 import com.maan.life.service.MessagePropertyService;
-
+import com.maan.life.util.ValidationUtil;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -71,15 +59,15 @@ public class MDepartmentController {
 	}
 
 	@ApiOperation(value = "Allows to fetch Department list for given 'code' : ['compCode' , 'divCode'] .", response = Response.class)
-	@PostMapping(value = "/getList", produces = "application/json")
-	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader,@RequestBody ListViewParam request) throws Exception {
+	@GetMapping(value = "/getList/{compCode}/{divnCode}", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader,@PathVariable String compCode ,@PathVariable String divnCode ) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-			if(ValidationUtil.isEmptyStringArray(request.getCode()) || request.getCode().length < 2){
+			if(ValidationUtil.isNull(compCode) || ValidationUtil.isNull(divnCode) ){
 				throw new Exception("Division and Company Code is required");
 			}
-			List<Option> lst = entityService.getList(request.getCode());
+			List<Option> lst = entityService.getList(compCode,divnCode);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 
@@ -100,23 +88,37 @@ public class MDepartmentController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-			List<MDepartment> obj = new ArrayList<>();
-			Page<MDepartment> list = entityService.findAllDepartmentDetails(request);
-			obj = list.getContent();
-			Map<String, Object> response = new HashMap<>();
-			response.put("data", obj);
-			response.put("currentPage", list.getNumber());
-			response.put("totalItems", list.getTotalElements());
-			response.put("totalPages", list.getTotalPages());
-
+			Map<String, Object> response = entityService.findAllDepartmentDetails(request);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
-
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
+			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		}
+	}
+
+
+
+	@ApiOperation(value = "Allows to fetch a Department Entity with given code(primary key).", response = Response.class)
+	@PostMapping(value = "/get", produces = "application/json")
+	public ResponseEntity<?> getById(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
+			throws Exception {
+
+		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
+		try {
+			if (!ValidationUtil.isEmptyStringArray(request.getCode()) && !(request.getCode().length < 3)) {
+				Optional<MDepartment> dataObj = entityService.findById(request.getCode()[0],request.getCode()[1],request.getCode()[2]);
+				return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), dataObj,
+						HttpStatus.OK);
+			} else {
+				throw new Exception("Company and Division and Department Code is required to fetch entity");
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
