@@ -1,9 +1,12 @@
 package com.maan.life.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+import com.maan.life.bean.MDivision;
+import com.maan.life.bean.MDivisionId;
+import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.MDivisionDto;
+import com.maan.life.repository.MDivisionRepository;
+import com.maan.life.service.MDivisionService;
+import com.maan.life.util.Convention;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MDivision;
-import com.maan.life.dto.ListViewParam;
-import com.maan.life.repository.MDivisionRepository;
-import com.maan.life.service.MDivisionService;
-import com.maan.life.util.Convention;
-import com.maan.life.util.ValidationUtil;
+import java.util.*;
 
 @Service
 @Transactional
@@ -49,38 +47,45 @@ public class MDivisionServiceImpl implements MDivisionService {
 		repository.saveAndFlush(request);
 	}
 	
-	@Override
-	public Page<MDivision> findAllDivisionDetails(ListViewParam request) {
 
+
+	@Override
+	public Map<String, Object> findAllDivisionDetails(ListViewParam request) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<MDivisionDto> responseList = new ArrayList<MDivisionDto>();
+		Page<MDivisionDto> pagingList =  null;
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
-		Page<MDivision> list = null;
-
-		if (request.getCode() != null && request.getCode().length != 0) {
-			List<String> o = new ArrayList<String>();
-			String sear = null;
-			if (request.getSearch() == null) {
-				sear = "%%";
-			} else {
-				sear = "%" + request.getSearch() + "%";
+		try{
+			if (request.getCode() != null && !(request.getCode().length < 1)) {
+				List<String> o = new ArrayList<String>();
+				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
+				pagingList = repository.findBySearchAndDivnCompCode("%" + sear + "%", request.getCode()[0], paging);
+			} else  {
+				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
+				pagingList = repository.findAll("%" + sear + "%", paging);
 			}
-			for (String ob : request.getCode()) {
-				o.add(ob);
-			}
-			list = repository.findBySearchAndDivnCompCode(sear, o.get(0), paging);
 
-		} else if (!ValidationUtil.isNull(request.getSearch())) {
-			String sear = "%" + request.getSearch() + "%";
-			list = repository.findAll(sear, paging);
-		} else {
-			list = repository.findAll(paging);
+			if(pagingList!=null){
+				responseList = pagingList.getContent();
+				response.put("currentPage", pagingList.getNumber());
+				response.put("totalItems", pagingList.getTotalElements());
+				response.put("totalPages", pagingList.getTotalPages());
+			}
+			response.put("data", responseList);
+		}catch (Exception e ){
+			log.error("Error in findAllDivisionDetails : " , e);
+			throw e;
 		}
-
-		return list;
-
+		return response;
 	}
-	
-	
+
+	@Override
+	public Optional<MDivision> findById(String comp,String divn) {
+		MDivisionId id = new MDivisionId(divn,comp);
+		return repository.findById(id);
+	}
 
 
 }

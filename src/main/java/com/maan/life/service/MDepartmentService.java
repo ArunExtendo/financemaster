@@ -6,6 +6,7 @@
 package com.maan.life.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ public interface MDepartmentService {
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 
-	Page<MDepartment> findAllDepartmentDetails(ListViewParam request);
+	Map<String, Object> findAllDepartmentDetails(ListViewParam request);
 
+    Optional<MDepartment> findById(String comp, String divn, String dept);
 }
