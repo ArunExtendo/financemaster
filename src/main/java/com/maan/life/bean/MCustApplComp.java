@@ -45,7 +45,7 @@ import lombok.ToString;
 /**
  * Domain class for entity "MCustApplComp"
  *
- * @author Telosys Tools Generator
+ * @author Thamizhazhagan Velayudham Tools Generator
  *
  */
 @Getter

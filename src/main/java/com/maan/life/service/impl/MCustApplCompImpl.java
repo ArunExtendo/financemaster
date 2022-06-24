@@ -71,7 +71,6 @@ public class MCustApplCompImpl implements MCustApplCompService {
 		}
 		return list;	
 	}
-	
 	@Override
 	public Optional<MCustApplComp> findById(ListViewParam request){
 		return repository.findByCacmCompCodeAndCacmCustCodeAndCacmDivnCodeFmAndCacmDivnCodeToAndCacmDeptCodeFmAndCacmDeptCodeTo(request.getCode()[0],request.getCode()[1],

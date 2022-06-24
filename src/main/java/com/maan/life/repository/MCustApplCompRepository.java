@@ -38,4 +38,5 @@ public interface MCustApplCompRepository  extends JpaRepository<MCustApplComp,MC
 			String cacmCompCode, String cacmCustCode, String cacmDivnCodeFm, String cacmDivnCodeTo,
 			String cacmDeptCodeFm, String cacmDeptCodeTo);
 
+	
 }

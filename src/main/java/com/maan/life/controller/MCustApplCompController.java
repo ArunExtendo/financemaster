@@ -63,7 +63,6 @@ public class MCustApplCompController {
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
-
 	}
 
 	@ApiOperation(value = "Allows to fetch CustApplComp Grid List.", response = Response.class)
@@ -115,5 +114,4 @@ public class MCustApplCompController {
 
 		}
 	}
-
 }

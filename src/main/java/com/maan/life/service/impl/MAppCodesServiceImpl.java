@@ -3,6 +3,7 @@ package com.maan.life.service.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.maan.life.bean.MAppCodes;
+import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MAppCodesRepository;
 import com.maan.life.service.MAppCodesService;
 
@@ -53,6 +55,11 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 	public Page<MAppCodes> findAll(Pageable paging) {
 		return repository.findAll(paging);
 	}
-
+	
+	@Override
+	public Optional<MAppCodes> findById(ListViewParam request){
+		return repository.findAcTypeAndAcCode(request.getCode()[0],request.getCode()[1]);
+		
+	}
 
 }

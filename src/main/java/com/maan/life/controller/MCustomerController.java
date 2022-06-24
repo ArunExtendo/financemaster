@@ -89,7 +89,6 @@ public class MCustomerController {
 			e.printStackTrace();
 			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
-
 		}
 	}
 
@@ -99,7 +98,6 @@ public class MCustomerController {
 			throws Exception {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
 		try {
 			if (!ValidationUtil.isEmptyStringArray(request.getCode())) {
 				Optional<MCustomer> dataObj = entityService.findById(request.getCode()[0]);
@@ -116,5 +114,4 @@ public class MCustomerController {
 
 		}
 	}
-
 }

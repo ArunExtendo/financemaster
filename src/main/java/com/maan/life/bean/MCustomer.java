@@ -567,4 +567,5 @@ public class MCustomer implements Serializable {
 
 	@Column(name = "CUST_DOB")
 	private Date custDob;
+	
 }

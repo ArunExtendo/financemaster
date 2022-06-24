@@ -1,6 +1,8 @@
 
 package com.maan.life.repository;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,6 +18,8 @@ public interface MAppCodesRepository
 
 	@Query(value = "select * from M_App_Codes where upper(concat(AC_TYPE,AC_CODE)) like upper(:search)", nativeQuery = true)
 	Page<MAppCodes> findAll(@Param("search") String search, Pageable paging);
+
+	Optional<MAppCodes> findAcTypeAndAcCode(String atcType, String acCode);
 
 	
 }

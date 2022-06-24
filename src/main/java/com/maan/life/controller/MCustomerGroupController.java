@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -111,5 +112,26 @@ public class MCustomerGroupController {
 
 		}
 	}
+	@ApiOperation(value = "Allows to fetch a cutomer group Entity with given code(primary key).", response = Response.class)
+	@PostMapping(value = "/get", produces = "application/json")
+	public ResponseEntity<?> getById(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
+			throws Exception {
 
+		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
+		try {
+			if (!ValidationUtil.isEmptyStringArray(request.getCode())) {
+				Optional<MAppCodes> dataObj = entityService.findById(request);
+				return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), dataObj,
+						HttpStatus.OK);
+			} else {
+				throw new Exception("Code to fetch Entity is not provided");
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		}
+	}
 }

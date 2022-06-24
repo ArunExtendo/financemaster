@@ -17,5 +17,4 @@ public interface MCustomerService {
 	Page<MCustomer> findAllCustomerDetails(ListViewParam request);
 
 	Optional<MCustomer> findById(String custCode);
-
 }

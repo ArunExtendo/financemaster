@@ -17,5 +17,4 @@ public interface MCustApplCompService {
 	Page<MCustApplComp> findAllCustApplCompDetails(ListViewParam request);
 
 	Optional<MCustApplComp> findById(ListViewParam request);
-
 }

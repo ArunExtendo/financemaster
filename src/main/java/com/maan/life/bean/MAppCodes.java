@@ -25,6 +25,9 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.maan.life.util.Constants;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -128,6 +131,7 @@ public class MAppCodes implements Serializable {
 	private String acCrUid;
 
 	@CreatedDate
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Column(name = "AC_CR_DT")
 	private LocalDateTime acCrDt;
 
@@ -136,6 +140,7 @@ public class MAppCodes implements Serializable {
 	private String acUpdUid;
 
 	@LastModifiedDate
+	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
 	@Column(name = "AC_UPD_DT")
 	private LocalDateTime acUpdDt;
 	
