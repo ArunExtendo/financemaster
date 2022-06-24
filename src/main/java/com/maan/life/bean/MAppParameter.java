@@ -21,7 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -63,13 +63,13 @@ public class MAppParameter implements Serializable {
 
 	// --- ENTITY PRIMARY KEY
 	@Id
-	@NotEmpty(message = "Para code is required")
+	@NotNull(message = "Para code is required")
 	@Size(max = 12, message = "Para code must be within 12 character")
 	@Column(name = "PARA_CODE", nullable = false, length = 12)
 	private String paraCode;
 
 	@Id
-	@NotEmpty(message = "Para sub code is required")
+	@NotNull(message = "Para sub code is required")
 	@Size(max = 12, message = "Para sub code must be within 12 character")
 	@Column(name = "PARA_SUB_CODE", nullable = false, length = 12)
 	private String paraSubCode;
@@ -97,7 +97,7 @@ public class MAppParameter implements Serializable {
 	
 	@CreatedBy
 	@Size(max = 12, message = "Para CrUid  must be within 12 character")
-	@Column(name = "PARA_CR_UID", nullable = false, length = 12)
+	@Column(name = "PARA_CR_UID", nullable = false, length = 12,updatable = false)
 	private String paraCrUid;
      
 	@CreatedDate

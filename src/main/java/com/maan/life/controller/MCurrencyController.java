@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maan.life.bean.MCurrency;
 import com.maan.life.dto.ListViewParam;
+import com.maan.life.dto.MCurrencyDto;
+import com.maan.life.dto.Option;
 import com.maan.life.response.Response;
 import com.maan.life.response.ResponseGenerator;
 import com.maan.life.response.TransactionContext;
@@ -42,7 +45,7 @@ import lombok.NonNull;
 @AllArgsConstructor(onConstructor_ = { @Autowired })
 @RequestMapping("/mcurrency")
 public class MCurrencyController {
-	
+
 	@Autowired
 	private MCurrencyService entityService;
 	private MessagePropertyService messageSource;
@@ -50,7 +53,8 @@ public class MCurrencyController {
 	private Convention sorting;
 
 	private static final Logger logger = Logger.getLogger(MCurrencyController.class);
-	
+
+	@ApiOperation(value = "API to Create or Update Currency Entity.", response = Response.class)
 	@PostMapping(value = "/createOrUpdate", produces = "application/json")
 	public ResponseEntity<?> createOrUpdate(@ApiParam(value = "Request payload") @Valid @RequestBody MCurrency request,
 			@RequestHeader HttpHeaders httpHeader) throws Exception {
@@ -67,17 +71,16 @@ public class MCurrencyController {
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
-
 	}
-	
-	@ApiOperation(value = "Allows to fetch all data List.", response = Response.class)
-	@GetMapping(value = "/getAll", produces = "application/json")
-	public ResponseEntity<?> getAll(@RequestHeader HttpHeaders httpHeader) throws Exception {
+
+	@ApiOperation(value = "Allows to fetch currency list to populate on dropdown.", response = Response.class)
+	@GetMapping(value = "/getList", produces = "application/json")
+	public ResponseEntity<?> getList(@RequestHeader HttpHeaders httpHeader) throws Exception {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
 
-			List<MCurrency> lst = entityService.getAll();
+			List<Option> lst = entityService.getList();
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), lst,
 					HttpStatus.OK);
 
@@ -89,7 +92,7 @@ public class MCurrencyController {
 
 		}
 	}
-	
+
 	@ApiOperation(value = "Allows to fetch Grid List.", response = Response.class)
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
@@ -98,46 +101,40 @@ public class MCurrencyController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-				sorting.getPageSize(request.getPageSize()));
-		
-			List<MCurrency> obj = new ArrayList<MCurrency>();
-			Page<MCurrency> list = null;
-			if (ValidationUtil.isNull(request.getSearch())) {
-
-				list = entityService.findAll(paging);
-				obj = list.getContent();
-			} else {
-				list = entityService.findSearch(request.getSearch(), paging);
-				obj = list.getContent();
-
-			}
-			if (request.getCode() != null) {
-				List<String> o = new ArrayList<String>();
-				for (String ob : request.getCode()) {
-					o.add(ob);
-				}
-				list = entityService.findByCurrCode(o.get(0), paging);
-				obj = list.getContent();
-			}
-			Map<String, Object> response = new HashMap<>();
-			response.put("data", obj);
-			response.put("currentPage", list.getNumber());
-			response.put("totalItems", list.getTotalElements());
-			response.put("totalPages", list.getTotalPages());
-
+			Map<String, Object> response = entityService.findAll(request);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			logger.error("Error in getAll for Grid list" +e.getMessage(), e);
+			logger.error(e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		}
 	}
 
+	@ApiOperation(value = "Allows to fetch a currency Entity with given code(primary key).", response = Response.class)
+	@PostMapping(value = "/get", produces = "application/json")
+	public ResponseEntity<?> getById(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
+			throws Exception {
+
+		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
+
+		try {
+			if (!ValidationUtil.isEmptyStringArray(request.getCode())) {
+				Optional<MCurrency> dataObj = entityService.findById(request.getCode()[0]);
+				return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), dataObj,
+						HttpStatus.OK);
+			} else {
+				throw new Exception("Code to fetch Entity is not provided");
+			}
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		}
+	}
 
 }

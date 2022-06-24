@@ -10,7 +10,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -51,7 +51,7 @@ public class MCompany implements Serializable {
 
 	// --- ENTITY PRIMARY KEY
 	@Id
-	@NotEmpty(message = "Comp code is required")
+	@NotNull(message = "Comp code is required")
 	@Size(max = 12, message = "Comp code must be within 12 character")
 	@Column(name = "COMP_CODE", nullable = false, length = 12)
 	private String compCode;

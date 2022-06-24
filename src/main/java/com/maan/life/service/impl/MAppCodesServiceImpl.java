@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.maan.life.dto.Option;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import com.maan.life.bean.MAppCodes;
 import com.maan.life.dto.ListViewParam;
 import com.maan.life.repository.MAppCodesRepository;
 import com.maan.life.service.MAppCodesService;
+import com.maan.life.util.Convention;
+import com.maan.life.util.ValidationUtil;
 
 @Service
 @Transactional
@@ -24,6 +27,8 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 
 	@Autowired
 	private MAppCodesRepository repository;
+	@Autowired
+	private Convention sorting;
 
 	private Logger log = LogManager.getLogger(MAppCodesServiceImpl.class);
 
@@ -32,7 +37,6 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 		List<MAppCodes> lst;
 		try {
 			lst = repository.findAll();
-
 		} catch (Exception ex) {
 			log.error("Error in findAll" +ex);
 			return Collections.emptyList();
@@ -46,14 +50,25 @@ public class MAppCodesServiceImpl implements MAppCodesService {
 	}
 
 	@Override
-	public Page<MAppCodes> findSearch(String search, Pageable paging) {
-		String sear = "%" + search + "%";
-		return repository.findAll(sear, paging);
+	public Page<MAppCodes> findAllAppCodesDetails(ListViewParam request) {
+
+		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+				sorting.getPageSize(request.getPageSize()));
+		Page<MAppCodes> list = null;
+		if (ValidationUtil.isNull(request.getSearch())) {
+			list = repository.findAll(paging);
+
+		} else {
+			String sear = "%" + request.getSearch() + "%";
+			list = repository.findAll(sear, paging);
+		}
+		return list;
 	}
 
+
 	@Override
-	public Page<MAppCodes> findAll(Pageable paging) {
-		return repository.findAll(paging);
+	public List<Option> getListOfValues(String code) {
+		return repository.getListByType(code);
 	}
 	
 	@Override

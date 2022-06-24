@@ -2,6 +2,7 @@ package com.maan.life.service;
 
 import java.util.List;
 
+import com.maan.life.dto.Option;
 import org.springframework.data.domain.Page;
 
 import com.maan.life.bean.MAppParameter;
@@ -14,4 +15,6 @@ public interface MAppParameterService {
 	public void saveorupdate(MAppParameter request);
 
 	Page<MAppParameter> findAllAppParameterDetails(ListViewParam request);
+
+    List<Option> getListOfValues(String code);
 }

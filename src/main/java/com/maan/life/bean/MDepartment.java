@@ -21,7 +21,7 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -63,19 +63,19 @@ public class MDepartment implements Serializable {
 
 	// --- ENTITY PRIMARY KEY
 	@Id
-	@NotEmpty(message = "Dept code is required")
+	@NotNull(message = "Dept code is required")
 	@Size(max = 12, message = "Dept code must be within 12 character")
 	@Column(name = "DEPT_CODE", nullable = false, length = 12)
 	private String deptCode;
 
 	@Id
-	@NotEmpty(message = "Dept divn code is required")
+	@NotNull(message = "Dept divn code is required")
 	@Size(max = 12, message = "Dept divn code must be within 12 character")
 	@Column(name = "DEPT_DIVN_CODE", nullable = false, length = 12)
 	private String deptDivnCode;
 
 	@Id
-	@NotEmpty(message = "Dept comp code is required")
+	@NotNull(message = "Dept comp code is required")
 	@Size(max = 12, message = "Dept comp code must be within 12 character")
 	@Column(name = "DEPT_COMP_CODE", nullable = false, length = 12)
 	private String deptCompCode;

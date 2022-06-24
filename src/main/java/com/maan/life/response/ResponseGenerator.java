@@ -52,7 +52,7 @@ public class ResponseGenerator {
 		headers.add("ApplicationLabel", context.getApplicationLabel());
 		headers.add("Content-Type", "application/json");
 		Error error = new Error();
-		error.setCode(httpStatus.toString() + "0001");
+		error.setCode(httpStatus.toString() );
 		error.setReason(errorMessage);
 		Response response = new Response();
 		response.setError(error);

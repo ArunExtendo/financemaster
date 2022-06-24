@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -58,13 +58,13 @@ public class MAppCodes implements Serializable {
 
 	@Id
 	@Column(name = "AC_TYPE", nullable = false)
-	@NotEmpty(message = "Ac type required")
+	@NotNull(message = "Ac type required")
 	@Size(max = 12, message = "Ac type must be within 12 character")
 	private String acType;
 
 	@Id
 	@Column(name = "AC_CODE", nullable = false)
-	@NotEmpty(message = "Ac code required")
+	@NotNull(message = "Ac code required")
 	@Size(max = 12, message = "Ac code must be within 12 character")
 	private String acCode;
 
@@ -81,7 +81,7 @@ public class MAppCodes implements Serializable {
 	private String acMastDefCode;
 
 	@Column(name = "AC_DESC")
-	@NotEmpty(message = "Ac Desc required")
+	@NotNull(message = "Ac Desc required")
 	@Size(max = 240, message = "Ac desc must be within 240 character")
 	private String acDesc;
 
@@ -127,12 +127,12 @@ public class MAppCodes implements Serializable {
 	private Date acEffToDt;
 
 	@CreatedBy
-	@Column(name = "AC_CR_UID")
+	@Column(name = "AC_CR_UID", nullable = false, updatable = false)
 	private String acCrUid;
 
 	@CreatedDate
 	@JsonFormat(pattern = Constants.DATE_FORMAT_PATTERN)
-	@Column(name = "AC_CR_DT")
+	@Column(name = "AC_CR_DT", nullable = false, updatable = false)
 	private LocalDateTime acCrDt;
 
 	@LastModifiedBy
@@ -145,5 +145,5 @@ public class MAppCodes implements Serializable {
 	private LocalDateTime acUpdDt;
 	
 	@Transient
-	private Boolean create= true;
+	private Boolean create=false;
 }
