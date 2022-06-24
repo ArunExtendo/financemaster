@@ -13,6 +13,7 @@ package com.maan.life.repository;
 
 import java.util.Optional;
 
+import com.maan.life.dto.MDepartmentDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -34,12 +35,16 @@ import com.maan.life.bean.MDepartmentId;
 public interface MDepartmentRepository
 		extends JpaRepository<MDepartment, MDepartmentId>, JpaSpecificationExecutor<MDepartment> {
 
-	@Query(value = "select * from M_DEPARTMENT where upper(DEPT_CODE || DEPT_NAME) like upper(:search)", nativeQuery = true)
-	Page<MDepartment> findAll(String search, Pageable paging);
+	@Query(value = "select DEPT_CODE as deptCode, DEPT_NAME as deptName" +
+			" from M_DEPARTMENT where upper(DEPT_CODE || DEPT_NAME) like upper(:search)", nativeQuery = true)
+	Page<MDepartmentDto> findAll(String search, Pageable paging);
 
 	Optional<MDepartment> findByDeptCode(String deptCode);
 
-	@Query(value = "select * from M_DEPARTMENT where upper(DEPT_COMP_CODE || DEPT_DIVN_CODE || DEPT_CODE || DEPT_NAME) like upper(:search) and DEPT_COMP_CODE = :deptCompCode and DEPT_DIVN_CODE =:deptDivnCode ", nativeQuery = true)
-	Page<MDepartment> findByDeptCompCodeAndDeptDivnCode(@Param("search") String search,@Param("deptCompCode") String deptCompCode, @Param("deptDivnCode") String deptDivnCode, Pageable paging);
+	@Query(value = "select DEPT_CODE as deptCode, DEPT_NAME as deptName " +
+			" from M_DEPARTMENT where upper(  DEPT_CODE || DEPT_NAME ) " +
+			" like upper(:search) and DEPT_COMP_CODE = :deptCompCode " +
+			"and DEPT_DIVN_CODE =:deptDivnCode ", nativeQuery = true)
+	Page<MDepartmentDto> findByDeptCompCodeAndDeptDivnCode(@Param("search") String search,@Param("deptCompCode") String deptCompCode, @Param("deptDivnCode") String deptDivnCode, Pageable paging);
 
 }

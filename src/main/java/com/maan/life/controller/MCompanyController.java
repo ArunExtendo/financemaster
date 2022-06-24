@@ -90,19 +90,9 @@ public class MCompanyController {
 	@PostMapping(value = "/getAll", produces = "application/json")
 	public ResponseEntity<?> getAll(@RequestBody ListViewParam request, @RequestHeader HttpHeaders httpHeader)
 			throws Exception {
-
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
-
 		try {
-			List<MCompany> obj = new ArrayList<MCompany>();
-			Page<MCompany> list = null;
-			list = entityService.findAllCompanyDetails(request);
-			obj = list.getContent();
-			Map<String, Object> response = new HashMap<>();
-			response.put("data", obj);
-			response.put("currentPage", list.getNumber());
-			response.put("totalItems", list.getTotalElements());
-			response.put("totalPages", list.getTotalPages());
+			Map<String, Object> response = entityService.findAllCompanyDetails(request);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 

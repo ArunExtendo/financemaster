@@ -1,9 +1,9 @@
 package com.maan.life.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+import com.maan.life.dto.MCurrencyDto;
+import com.maan.life.dto.MDivisionDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,35 +49,38 @@ public class MDivisionServiceImpl implements MDivisionService {
 		repository.saveAndFlush(request);
 	}
 	
-	@Override
-	public Page<MDivision> findAllDivisionDetails(ListViewParam request) {
 
+
+	@Override
+	public Map<String, Object> findAllDivisionDetails(ListViewParam request) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<MDivisionDto> responseList = new ArrayList<MDivisionDto>();
+		Page<MDivisionDto> pagingList =  null;
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
-		Page<MDivision> list = null;
-
-		if (request.getCode() != null && request.getCode().length != 0) {
-			List<String> o = new ArrayList<String>();
-			String sear = null;
-			if (request.getSearch() == null) {
-				sear = "%%";
-			} else {
-				sear = "%" + request.getSearch() + "%";
+		try{
+			if (request.getCode() != null && request.getCode().length != 0) {
+				List<String> o = new ArrayList<String>();
+				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
+				pagingList = repository.findBySearchAndDivnCompCode("%" + sear + "%", request.getCode()[0], paging);
+			} else  {
+				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
+				pagingList = repository.findAll("%" + sear + "%", paging);
 			}
-			for (String ob : request.getCode()) {
-				o.add(ob);
-			}
-			list = repository.findBySearchAndDivnCompCode(sear, o.get(0), paging);
 
-		} else if (!ValidationUtil.isNull(request.getSearch())) {
-			String sear = "%" + request.getSearch() + "%";
-			list = repository.findAll(sear, paging);
-		} else {
-			list = repository.findAll(paging);
+			if(pagingList!=null){
+				responseList = pagingList.getContent();
+				response.put("currentPage", pagingList.getNumber());
+				response.put("totalItems", pagingList.getTotalElements());
+				response.put("totalPages", pagingList.getTotalPages());
+			}
+			response.put("data", responseList);
+		}catch (Exception e ){
+			log.error("Error in findAllDivisionDetails : " , e);
+			throw e;
 		}
-
-		return list;
-
+		return response;
 	}
 	
 	

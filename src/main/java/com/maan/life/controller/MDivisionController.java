@@ -96,17 +96,7 @@ public class MDivisionController {
 
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 		try {
-			List<MDivision> obj = new ArrayList<>();
-			Page<MDivision> list = entityService.findAllDivisionDetails(request);
-			obj = list.getContent();
-			
-			
-			Map<String, Object> response = new HashMap<>();
-			response.put("data", obj);
-			response.put("currentPage", list.getNumber());
-			response.put("totalItems", list.getTotalElements());
-			response.put("totalPages", list.getTotalPages());
-
+			Map<String, Object> response = entityService.findAllDivisionDetails(request);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
 

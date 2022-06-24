@@ -5,11 +5,10 @@
 */
 package com.maan.life.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import com.maan.life.dto.MDepartmentDto;
+import com.maan.life.dto.MDivisionDto;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,31 +60,43 @@ public class MDepartmentServiceImpl implements MDepartmentService {
 		return repository.findByDeptCode(deptCode);
 	}
 
-	public Page<MDepartment> findAllDepartmentDetails(ListViewParam request) {
 
-		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
-				sorting.getPageSize(request.getPageSize()));
-		Page<MDepartment> list = null;
 
-		if (request.getCode() != null && request.getCode().length != 0) {
-			List<String> o = new ArrayList<String>();
-			String sear = null;
-			if (request.getSearch() == null) {
-				sear = "%%";
+
+	@Override
+	public Map<String, Object> findAllDepartmentDetails(ListViewParam request) {
+
+		Map<String, Object> response = new HashMap<>();
+		List<MDepartmentDto> responseList = new ArrayList<MDepartmentDto>();
+		Page<MDepartmentDto> pagingList =  null;
+		try{
+			Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
+					sorting.getPageSize(request.getPageSize()));
+
+			if (request.getCode() != null && request.getCode().length != 0) {
+				List<String> o = new ArrayList<String>();
+				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
+				for (String ob : request.getCode()) {
+					o.add(ob);
+				}
+				pagingList = repository.findByDeptCompCodeAndDeptDivnCode("%" + sear + "%", o.get(0), o.get(1), paging);
+
 			} else {
-				sear = "%" + request.getSearch() + "%";
+				String sear =  request.getSearch() != null ? request.getSearch() : "" ;
+				pagingList = repository.findAll("%" + sear + "%", paging);
 			}
-			for (String ob : request.getCode()) {
-				o.add(ob);
-			}
-			list = repository.findByDeptCompCodeAndDeptDivnCode(sear, o.get(0), o.get(1), paging);
 
-		} else if (!ValidationUtil.isNull(request.getSearch())) {
-			String sear = "%" + request.getSearch() + "%";
-			list = repository.findAll(sear, paging);
-		} else {
-			list = repository.findAll(paging);
+			if(pagingList!=null){
+				responseList = pagingList.getContent();
+				response.put("currentPage", pagingList.getNumber());
+				response.put("totalItems", pagingList.getTotalElements());
+				response.put("totalPages", pagingList.getTotalPages());
+			}
+			response.put("data", responseList);
+		}catch (Exception e ){
+			log.error("Error in findAllDepartmentDetails : " , e);
+			throw e;
 		}
-		return list;
+		return response;
 	}
 }

@@ -95,21 +95,10 @@ public class MDepartmentController {
 		TransactionContext context = responseGenerator.generateTransationContext(httpHeader);
 
 		try {
-			List<MDepartment> obj = new ArrayList<>();
-			Page<MDepartment> list = entityService.findAllDepartmentDetails(request);
-			obj = list.getContent();
-			Map<String, Object> response = new HashMap<>();
-			response.put("data", obj);
-			response.put("currentPage", list.getNumber());
-			response.put("totalItems", list.getTotalElements());
-			response.put("totalPages", list.getTotalPages());
-
+			Map<String, Object> response = entityService.findAllDepartmentDetails(request);
 			return responseGenerator.successGetResponse(context, messageSource.getMessage("fetched"), response,
 					HttpStatus.OK);
-
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error("Error in getAll for Grid list" + e.getMessage(), e);
 			return responseGenerator.errorResponse(context, e.getMessage(), HttpStatus.BAD_REQUEST);
