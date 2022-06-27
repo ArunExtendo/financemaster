@@ -6,53 +6,47 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.maan.life.bean.MTranDocNo;
+import com.maan.life.bean.MItemCatg;
 import com.maan.life.dto.ListViewParam;
-import com.maan.life.dto.MTranDocNoDto;
-import com.maan.life.repository.MTranDocNoRepository;
-import com.maan.life.service.MTranDocNoService;
+import com.maan.life.dto.MGlAcntYearDto;
+import com.maan.life.repository.MItemCatgRepository;
+import com.maan.life.service.MItemCatgService;
 import com.maan.life.util.Convention;
 import com.maan.life.util.ValidationUtil;
 
 @Service
 @Transactional
-public class MTranDocNoServiceImpl implements MTranDocNoService {
-
+public class MItemCatgServiceImpl implements MItemCatgService {
+	
 	@Autowired
-	private MTranDocNoRepository repository;
-
+	private MItemCatgRepository repository;
 	@Autowired
 	private Convention sorting;
 
-	private Logger log = LogManager.getLogger(MTranDocNoServiceImpl.class);
-
 	@Override
-	public void saveorupdate(MTranDocNo request) {
+	public void saveorupdate(@Valid MItemCatg request) {
 		repository.saveAndFlush(request);
-
+		
 	}
 
 	@Override
-	public Optional<MTranDocNo> findByCodes(String tdnCode, String tdnCompCode, String tdnDocType,
-			String tdnYear) {
-		Double db = Double.parseDouble(tdnYear);
-		return repository.findByTdnCodeAndTdnCompCodeAndTdnDocTypeAndTdnYear(tdnCode, tdnCompCode, tdnDocType, db);
+	public Optional<MItemCatg> findByCodes(String icCode, String icCompCode) {
+		return repository.findByIcCodeAndIcCompCode(icCode,icCompCode);
 	}
 
 	@Override
 	public Map<String, Object> findAll(ListViewParam request) {
-
 		Map<String, Object> response = new HashMap<>();
-		List<MTranDocNoDto> responseList = new ArrayList<MTranDocNoDto>();
-		Page<MTranDocNoDto> pagingList =  null;
+		List<MItemCatg> responseList = new ArrayList<MItemCatg>();
+		Page<MItemCatg> pagingList =  null;
 		Pageable paging = sorting.getPaging(sorting.getPageNumber(request.getPageNumber()),
 				sorting.getPageSize(request.getPageSize()));
 
@@ -73,7 +67,6 @@ public class MTranDocNoServiceImpl implements MTranDocNoService {
 		response.put("data", responseList);
 		return response;
 	}
-
 
 
 }

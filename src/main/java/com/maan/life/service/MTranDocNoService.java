@@ -10,7 +10,7 @@ public interface MTranDocNoService {
 
 	void saveorupdate(MTranDocNo request);
 
-	Optional<MTranDocNo> findByTdnCodeAndTdnCompCode(String string, String string2, String string3, String string4);
+	Optional<MTranDocNo> findByCodes(String string, String string2, String string3, String string4);
 
 	Map<String, Object> findAll(ListViewParam request);
 
